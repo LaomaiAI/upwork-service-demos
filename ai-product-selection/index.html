@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Product Selection - Full Workflow Demo (SAMPLE)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1e293b; background: #f7f3ec; line-height: 1.6; }
+  .page { max-width: 980px; margin: 0 auto; padding: 40px 28px 56px; position: relative; }
+  .page-wm { position: fixed; inset: 0; pointer-events: none; z-index: 60;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><text x="150" y="150" font-size="26" font-family="Arial, sans-serif" font-weight="700" fill="%2394a3b8" fill-opacity="0.07" text-anchor="middle" transform="rotate(-30 150 150)">SAMPLE</text></svg>');
+  }
+  .sample-badge { display: inline-block; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+  header.hero { background: #f3e9d7; color: #2d2417; border: 1px solid #e6dcc4; border-radius: 14px; padding: 36px 36px 30px; }
+  header.hero h1 { font-size: 32px; line-height: 1.25; font-weight: 800; letter-spacing: -0.01em; }
+  header.hero h1 span { color: #0e7490; }
+  header.hero p.sub { color: #6b5d45; font-size: 16px; margin-top: 10px; max-width: 680px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #ddd2b8; }
+  .hero-meta div { font-size: 13px; color: #8a7a5c; }
+  .hero-meta b { display: block; color: #2d2417; font-size: 15px; font-weight: 700; }
+  section.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 28px 32px; margin-top: 20px; }
+  h2 { font-size: 20px; font-weight: 800; color: #2d2417; letter-spacing: -0.01em; }
+  h2 .num { display: inline-block; background: #0e7490; color: #fff; font-size: 13px; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 8px; margin-right: 10px; vertical-align: 2px; }
+  .lede { color: #475569; font-size: 15px; margin-top: 8px; }
+  .lede b { color: #2d2417; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+  .fact { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
+  .fact .k { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #64748b; }
+  .fact .v { font-size: 15px; font-weight: 600; color: #2d2417; margin-top: 4px; }
+  .funnel { display: flex; align-items: stretch; gap: 10px; margin-top: 20px; }
+  .funnel .step { flex: 1; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 14px 12px; text-align: center; }
+  .funnel .step b { display: block; font-size: 26px; color: #0369a1; line-height: 1.1; }
+  .funnel .step span { font-size: 12.5px; color: #475569; }
+  .pipeline { display: flex; align-items: stretch; gap: 0; margin-top: 20px; }
+  .pipeline .pstep { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 12px; text-align: center; }
+  .pipeline .pstep b { display: block; font-size: 14px; color: #0f2a3d; }
+  .pipeline .pstep span { font-size: 12px; color: #64748b; display: block; margin-top: 4px; line-height: 1.45; }
+  .pipeline .arr { align-self: center; color: #94a3b8; font-weight: 800; padding: 0 6px; font-size: 16px; }
+  .criteria { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+  .crit { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; }
+  .crit b { font-size: 15px; color: #0f2a3d; }
+  .crit .w { font-size: 22px; font-weight: 800; color: #0e7490; margin-top: 2px; }
+  .crit p { font-size: 13px; color: #64748b; margin-top: 4px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .filters input[type="search"], .filters select { font: inherit; font-size: 14px; color: #1e293b; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 12px; }
+  .filters input[type="search"] { flex: 1 1 200px; min-width: 180px; }
+  .filters select { flex: 0 1 auto; }
+  .filters button { font: inherit; font-size: 14px; font-weight: 700; color: #0e7490; background: #fff; border: 1px solid #0e7490; border-radius: 8px; padding: 9px 16px; cursor: pointer; }
+  .filters button:hover { background: #f0f9ff; }
+  .count { font-size: 13.5px; color: #64748b; margin-top: 12px; }
+  .count b { color: #0f2a3d; }
+  table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
+  table.scorecard { table-layout: fixed; }
+  td.sc { white-space: nowrap; }
+  .tag { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  th { text-align: left; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: #64748b; padding: 10px 10px; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  td.prod b { color: #0f2a3d; font-size: 14.5px; }
+  td.prod span { display: block; font-size: 12.5px; color: #64748b; }
+  .bar { display: inline-block; width: 64px; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .bar i { display: block; height: 100%; background: #0e7490; border-radius: 99px; }
+  .bar i.low { background: #dc2626; }
+  .bar i.mid { background: #d97706; }
+  .total { font-size: 17px; font-weight: 800; color: #0f2a3d; }
+  .rank { display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 50%; background: #8a6d3b; color: #fff; font-size: 13px; font-weight: 700; }
+  .rank.top { background: #0e7490; }
+  .tag.go { background: #dcfce7; color: #166534; }
+  .tag.no { background: #fee2e2; color: #991b1b; }
+  .tag.test { background: #fef3c7; color: #92400e; }
+  .tag.factory { background: #e0f2fe; color: #075985; }
+  .pick { border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 24px; margin-top: 16px; }
+  .pick .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .pick h3 { font-size: 18px; color: #0f2a3d; }
+  .pick .score { font-size: 14px; color: #475569; }
+  .pick .score b { font-size: 20px; color: #0e7490; }
+  .pick ul { margin: 12px 0 0 18px; color: #334155; font-size: 14.5px; }
+  .pick ul li { margin-top: 6px; }
+  .pick ul li b { color: #0f2a3d; }
+  .econ { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+  .econ div { background: #f8fafc; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .econ .k { font-size: 11.5px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+  .econ .v { font-size: 16px; font-weight: 800; color: #2d2417; margin-top: 2px; }
+  .verdict { background: #f3e9d7; color: #2d2417; border: 1px solid #e6dcc4; border-radius: 14px; padding: 28px 32px; margin-top: 20px; }
+  .verdict h2 { color: #2d2417; }
+  .verdict h2 .num { background: #0e7490; color: #fff; }
+  .verdict p { color: #5c5138; margin-top: 10px; font-size: 15px; }
+  .verdict p b { color: #2d2417; }
+  .verdict ol { margin: 14px 0 0 20px; color: #5c5138; font-size: 15px; }
+  .verdict ol li { margin-top: 8px; }
+  .verdict ol li b { color: #2d2417; }
+  .tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tscroll table { min-width: 760px; }
+  .tscroll.wide table { min-width: 1020px; }
+  .sample-block { border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 24px; margin-top: 16px; }
+  .sample-block h3 { font-size: 17px; color: #2d2417; }
+  .sample-block .s-score { font-size: 14px; color: #475569; }
+  .sample-block .s-score b { font-size: 20px; color: #0e7490; }
+  .sample-top { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; margin-top: 12px; }
+  .sample-art { flex: 0 0 132px; text-align: center; }
+  .sample-art svg { width: 132px; height: 88px; display: block; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+  .sample-art span { font-size: 11.5px; color: #94a3b8; display: block; margin-top: 6px; }
+  .upload { flex: 1 1 280px; border: 1.5px dashed #94a3b8; border-radius: 10px; padding: 12px 16px; background: #f8fafc; font-size: 13.5px; color: #475569; }
+  .upload b { color: #2d2417; }
+  .upload .ok { color: #166534; font-weight: 700; }
+  .shot { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 16px; background: #fff; }
+  .shot-head { background: #f1f5f9; padding: 10px 14px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid #e2e8f0; font-size: 12.5px; color: #64748b; }
+  .shot-head .dots { display: flex; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .shot-head .url { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 3px 10px; font-size: 12px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .shot-body { padding: 20px 22px; position: relative; overflow: hidden; }
+  .shot-wm { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .shot-wm span { font-size: 46px; font-weight: 800; color: rgba(220, 38, 38, 0.10); transform: rotate(-16deg); letter-spacing: 0.22em; white-space: nowrap; }
+  .shot h4 { font-size: 15px; color: #0f2a3d; }
+  .shot .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-top: 12px; font-size: 13.5px; }
+  .shot .kv div { color: #475569; }
+  .shot .kv b { color: #0f2a3d; }
+  .shot .cap { font-size: 13.5px; color: #475569; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+  .shot .cap b { color: #0f2a3d; }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 90px; margin-top: 14px; }
+  .bars i { flex: 1; background: #0e7490; border-radius: 3px 3px 0 0; display: block; }
+  .bars i.dim { background: #bae6fd; }
+  .bars-label { display: flex; justify-content: space-between; font-size: 11.5px; color: #94a3b8; margin-top: 6px; }
+  .final-num { font-size: 20px; font-weight: 800; color: #0e7490; }
+  footer { margin-top: 24px; font-size: 12.5px; color: #94a3b8; text-align: center; }
+  footer b { color: #64748b; }
+  @media (max-width: 720px) {
+    .grid2, .criteria, .econ { grid-template-columns: 1fr 1fr; }
+    .grid4 { grid-template-columns: 1fr 1fr; }
+    .funnel { flex-direction: column; }
+    .pipeline { flex-direction: column; }
+    .pipeline .arr { transform: rotate(90deg); padding: 2px 0; align-self: center; }
+    header.hero h1 { font-size: 25px; }
+    .sample-badge { white-space: nowrap; font-size: 11px; }
+    section.card, .verdict { padding: 22px 20px; }
+    .bar { width: 70px; }
+    .shot .kv { grid-template-columns: 1fr; }
+    .shot-wm span { font-size: 34px; }
+  }
+
+  /* --- image carousel (added) --- */
+  .carousel{position:relative;margin-top:20px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;background:#fff}
+  .c-track{position:relative;aspect-ratio:16/8}
+  .c-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none}
+  .c-slide.is-active{opacity:1;pointer-events:auto}
+  .c-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .c-slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 92px 14px 18px;color:#fff;font-size:14px;font-weight:600;background:linear-gradient(to top,rgba(15,42,61,.75),rgba(15,42,61,0))}
+  .c-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(255,255,255,.88);color:#1e293b;font-size:22px;line-height:36px;text-align:center;cursor:pointer;z-index:2;padding:0}
+  .c-prev{left:12px}.c-next{right:12px}
+  .c-dots{position:absolute;bottom:14px;right:14px;display:flex;gap:6px;z-index:2}
+  .c-dots button{width:9px;height:9px;border-radius:50%;border:1px solid #fff;background:rgba(255,255,255,.55);cursor:pointer;padding:0}
+  .c-dots button.is-active{background:#fff}
+  @media(max-width:640px){.c-track{aspect-ratio:16/10}.c-slide figcaption{font-size:12.5px;padding-right:78px}}
+
+  /* --- feature icon strip (added) --- */
+  .feat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .feat{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px}
+  .feat .ic{width:40px;height:40px;border-radius:10px;background:#f0f9ff;color:#0e7490;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .feat .ic svg{width:22px;height:22px}
+  .feat b{display:block;font-size:14.5px;color:#1e293b}
+  .feat span{display:block;font-size:13px;color:#64748b;margin-top:3px;line-height:1.5}
+  @media(max-width:640px){.feat-strip{grid-template-columns:1fr 1fr}}
+
+  .pick-img{float:right;width:200px;height:150px;object-fit:cover;border-radius:10px;margin:2px 0 12px 18px;border:1px solid #e2e8f0}
+  .pick::after{content:"";display:block;clear:both}
+  @media(max-width:640px){.pick-img{float:none;width:100%;height:180px;margin:0 0 14px}}
+</style>
+</head>
+<body>
+<div class="page-wm"></div>
+<div class="page">
+
+  <header class="hero">
+    <span class="sample-badge">Sample &mdash; illustrative data only</span>
+    <h1 style="margin-top:14px;">AI Product Selection<br><span>Full Workflow: Search to Factory Rank</span></h1>
+    <p class="sub">This is not a tool. It is a finished sample of the work a client receives: the whole category searched and filtered, the product scored, the physical sample scored, the factories compared, the verification checked, and one final ranked recommendation.</p>
+    <div class="hero-meta">
+      <div>Prepared for<b>Sample Client &mdash; US Amazon Seller</b></div>
+      <div>Prepared by<b>Jiang Peng L. &mdash; AI Automation &amp; Sourcing</b></div>
+      <div>Niche<b>Home fitness accessories, $20&ndash;$60 retail</b></div>
+      <div>Date<b>November 2026</b></div>
+    </div>
+  </header>
+
+<div class="carousel" data-carousel aria-label="Demo gallery">
+  <div class="c-track">
+    <figure class="c-slide is-active"><img src="assets/carousel-sourcing.jpg" alt="Sourcing warehouse with shelves of fitness products"><figcaption>Sourcing — 24 candidate products found across 4 sub-categories</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-factory.jpg" alt="Factory floor assembling fitness equipment"><figcaption>Factory checks — shortlisted suppliers verified before samples are ordered</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-inspection.jpg" alt="Quality inspection of a yoga mat"><figcaption>Sample inspection — every sample scored on five checks before it is approved</figcaption></figure>
+  </div>
+  <button class="c-arrow c-prev" type="button" aria-label="Previous image">&#8249;</button>
+  <button class="c-arrow c-next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="c-dots">
+    <button type="button" class="is-active" aria-label="Slide 1"></button>
+    <button type="button" aria-label="Slide 2"></button>
+    <button type="button" aria-label="Slide 3"></button>
+  </div>
+</div>
+
+<div class="feat-strip">
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div><b>24 candidates screened</b><span>Four sub-categories searched, filtered and scored</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20"/><path d="M4 20V10l5 3.5V10l5 3.5V6h6v14"/><path d="M8 20v-3h8v3"/></svg></div><b>Factories verified</b><span>Shortlisted suppliers checked before samples</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></svg></div><b>Samples scored</b><span>Five checks on every sample, defects logged</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M2 20h20"/></svg></div><b>Ranked on numbers</b><span>Demand, competition, margin and supply risk, weighted</span></div>
+</div>
+
+  <section class="card">
+    <h2><span class="num">1</span>The brief</h2>
+    <p class="lede">The client wants three hero SKUs to launch a home-fitness store on Amazon US. The products must be shippable, defensible against copycats, and profitable after freight and marketplace fees.</p>
+    <div class="grid2">
+      <div class="fact"><div class="k">Target retail</div><div class="v">$20 &ndash; $60 per unit</div></div>
+      <div class="fact"><div class="k">Weight limit</div><div class="v">Under 3 kg preferred (freight control)</div></div>
+      <div class="fact"><div class="k">Hard exclusions</div><div class="v">No electronics, no batteries, no brand IP</div></div>
+      <div class="fact"><div class="k">Launch budget</div><div class="v">$8,000 first order, three SKUs</div></div>
+    </div>
+    <div class="funnel">
+      <div class="step"><b>214</b><span>1688 listings scanned</span></div>
+      <div class="step"><b>42</b><span>Passed hard filters</span></div>
+      <div class="step"><b>24</b><span>In the category browser</span></div>
+      <div class="step"><b>8</b><span>Scored in full</span></div>
+      <div class="step"><b>3</b><span>Shortlisted</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span>How the workflow runs</h2>
+    <p class="lede">Five stages, in order. Nothing is skipped: a product that looks good on paper still has to survive the sample check and the factory check before it is recommended.</p>
+    <div class="pipeline">
+      <div class="pstep"><b>Stage 1</b><span>Search the whole category and filter the candidates</span></div>
+      <div class="arr">&gt;</div>
+      <div class="pstep"><b>Stage 2</b><span>Score each product on demand, competition, margin, supply risk</span></div>
+      <div class="arr">&gt;</div>
+      <div class="pstep"><b>Stage 3</b><span>Score the physical sample the client sends</span></div>
+      <div class="arr">&gt;</div>
+      <div class="pstep"><b>Stage 4</b><span>Match and compare factories on seven checks</span></div>
+      <div class="arr">&gt;</div>
+      <div class="pstep"><b>Stage 5</b><span>Verify, then rank product + sample + factory together</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span>Stage 1 &mdash; Search the whole category</h2>
+    <p class="lede">Four subcategories, 24 candidates, one fixed sample dataset. Use the filters below to narrow it the way the selection is run: by subcategory, unit cost, MOQ, margin and demand. <b>The filters only search this fixed sample set to demonstrate the workflow &mdash; this page is a report, not a live sourcing tool.</b></p>
+    <div class="filters">
+      <input type="search" id="q" placeholder="Search products, e.g. yoga, dumbbell, rope&hellip;" aria-label="Search products">
+      <select id="sub" aria-label="Subcategory">
+        <option value="">All subcategories</option>
+        <option value="yoga">Yoga &amp; Stretch</option>
+        <option value="strength">Strength Training</option>
+        <option value="cardio">Cardio &amp; Recovery</option>
+        <option value="accessories">Accessories &amp; Storage</option>
+      </select>
+      <select id="price" aria-label="Unit cost band">
+        <option value="">Unit cost: any</option>
+        <option value="under2">Under $2</option>
+        <option value="2to5">$2 - $5</option>
+        <option value="5to10">$5 - $10</option>
+        <option value="10plus">$10+</option>
+      </select>
+      <select id="moq" aria-label="MOQ band">
+        <option value="">MOQ: any</option>
+        <option value="m100">Up to 100</option>
+        <option value="m300">101 - 300</option>
+        <option value="m500">301 - 500</option>
+        <option value="m1000">500+</option>
+      </select>
+      <select id="margin" aria-label="Minimum margin score">
+        <option value="">Margin score: any</option>
+        <option value="55">55+</option>
+        <option value="60">60+</option>
+        <option value="65">65+</option>
+      </select>
+      <select id="demand" aria-label="Minimum demand score">
+        <option value="">Demand score: any</option>
+        <option value="60">60+</option>
+        <option value="70">70+</option>
+        <option value="80">80+</option>
+      </select>
+      <button type="button" id="reset">Reset filters</button>
+    </div>
+    <p class="count" id="count">Showing <b>24</b> of 24 candidates &mdash; all figures are sample data.</p>
+    <div class="tscroll"><table id="browser">
+      <tr><th>Product</th><th>Subcategory</th><th>Unit cost</th><th>MOQ</th><th>Demand</th><th>Compet.</th><th>Margin</th><th>Supply</th><th>Total</th><th>Result</th></tr>
+      <tr data-name="eco tpe yoga mat 6 mm" data-sub="yoga" data-cost="6.8" data-moq="200" data-margin="66" data-demand="79"><td class="prod"><b>Eco TPE Yoga Mat, 6 mm</b><span>Non-slip, carry strap, 3 colours</span></td><td>Yoga &amp; Stretch</td><td>$6.80</td><td>200</td><td>79</td><td>55</td><td>66</td><td>81</td><td class="total">70.2</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="resistance band set 5 levels" data-sub="strength" data-cost="3.4" data-moq="500" data-margin="72" data-demand="82"><td class="prod"><b>Resistance Band Set, 5 levels</b><span>Latex, handles + door anchor</span></td><td>Strength Training</td><td>$3.40</td><td>500</td><td>82</td><td>38</td><td>72</td><td>78</td><td class="total">67.7</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="adjustable dumbbell set 5-24 kg" data-sub="strength" data-cost="18.5" data-moq="100" data-margin="61" data-demand="88"><td class="prod"><b>Adjustable Dumbbell Set, 5&ndash;24 kg</b><span>Dial-adjust, pair, stand optional</span></td><td>Strength Training</td><td>$18.50</td><td>100</td><td>88</td><td>42</td><td>61</td><td>74</td><td class="total">67.0</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="ab wheel with knee mat" data-sub="strength" data-cost="2.8" data-moq="300" data-margin="66" data-demand="57"><td class="prod"><b>Ab Wheel with Knee Mat</b><span>Wide wheel, non-slip grips</span></td><td>Strength Training</td><td>$2.80</td><td>300</td><td>57</td><td>63</td><td>66</td><td>80</td><td class="total">65.4</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="pilates ring 14 inch" data-sub="yoga" data-cost="3.1" data-moq="300" data-margin="68" data-demand="49"><td class="prod"><b>Pilates Ring, 14 inch</b><span>Steel core, foam padded</span></td><td>Yoga &amp; Stretch</td><td>$3.10</td><td>300</td><td>49</td><td>72</td><td>68</td><td>78</td><td class="total">65.3</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="weighted jump rope" data-sub="cardio" data-cost="2.2" data-moq="500" data-margin="54" data-demand="61"><td class="prod"><b>Weighted Jump Rope</b><span>Adjustable cable, ball bearings</span></td><td>Cardio &amp; Recovery</td><td>$2.20</td><td>500</td><td>61</td><td>68</td><td>54</td><td>82</td><td class="total">65.2</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="foam roller epp 45 cm" data-sub="yoga" data-cost="4.6" data-moq="200" data-margin="63" data-demand="71"><td class="prod"><b>Foam Roller, EPP 45 cm</b><span>High-density, massage texture</span></td><td>Yoga &amp; Stretch</td><td>$4.60</td><td>200</td><td>71</td><td>48</td><td>63</td><td>77</td><td class="total">64.5</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="adjustable kettlebell 12 kg" data-sub="strength" data-cost="15.9" data-moq="100" data-margin="52" data-demand="66"><td class="prod"><b>Adjustable Kettlebell, 12 kg</b><span>Dial-adjust, cast shell</span></td><td>Strength Training</td><td>$15.90</td><td>100</td><td>66</td><td>44</td><td>52</td><td>59</td><td class="total">55.6</td><td><span class="tag go">Deep-scored</span></td></tr>
+      <tr data-name="massage gun mini" data-sub="cardio" data-cost="14.5" data-moq="100" data-margin="46" data-demand="84"><td class="prod"><b>Massage Gun, Mini</b><span>4 heads, USB-C, 3 speeds</span></td><td>Cardio &amp; Recovery</td><td>$14.50</td><td>100</td><td>84</td><td>31</td><td>46</td><td>55</td><td class="total">55.5</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="resistance loop bands set" data-sub="cardio" data-cost="1.8" data-moq="500" data-margin="52" data-demand="58"><td class="prod"><b>Resistance Loop Bands, Set of 5</b><span>Latex loops, carry pouch</span></td><td>Cardio &amp; Recovery</td><td>$1.80</td><td>500</td><td>58</td><td>44</td><td>52</td><td>66</td><td class="total">54.6</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="gym bag duffel 30l" data-sub="accessories" data-cost="7.8" data-moq="200" data-margin="49" data-demand="62"><td class="prod"><b>Gym Bag, Duffel 30 L</b><span>Shoe pocket, wet pocket</span></td><td>Accessories &amp; Storage</td><td>$7.80</td><td>200</td><td>62</td><td>41</td><td>49</td><td>65</td><td class="total">54.1</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="push-up board 12-in-1" data-sub="strength" data-cost="4.8" data-moq="300" data-margin="50" data-demand="55"><td class="prod"><b>Push-Up Board, 12-in-1</b><span>Foldable, colour-coded positions</span></td><td>Strength Training</td><td>$4.80</td><td>300</td><td>55</td><td>45</td><td>50</td><td>68</td><td class="total">53.9</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="water bottle 1l steel" data-sub="accessories" data-cost="3.3" data-moq="500" data-margin="47" data-demand="59"><td class="prod"><b>Water Bottle, 1 L Steel</b><span>Double wall, powder coat</span></td><td>Accessories &amp; Storage</td><td>$3.30</td><td>500</td><td>59</td><td>39</td><td>47</td><td>68</td><td class="total">52.8</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="weightlifting gloves leather" data-sub="strength" data-cost="3.9" data-moq="200" data-margin="46" data-demand="47"><td class="prod"><b>Weightlifting Gloves, Leather</b><span>Wrist wrap, half finger</span></td><td>Strength Training</td><td>$3.90</td><td>200</td><td>47</td><td>53</td><td>46</td><td>64</td><td class="total">51.7</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="skipping rope pvc" data-sub="cardio" data-cost="0.9" data-moq="1000" data-margin="38" data-demand="42"><td class="prod"><b>Skipping Rope, PVC</b><span>Adjustable length, foam handles</span></td><td>Cardio &amp; Recovery</td><td>$0.90</td><td>1000</td><td>42</td><td>60</td><td>38</td><td>71</td><td class="total">51.3</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="yoga block cork pair" data-sub="yoga" data-cost="2.1" data-moq="200" data-margin="47" data-demand="44"><td class="prod"><b>Yoga Block, Cork, Pair</b><span>Natural cork, bevelled edges</span></td><td>Yoga &amp; Stretch</td><td>$2.10</td><td>200</td><td>44</td><td>52</td><td>47</td><td>66</td><td class="total">51.2</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="cooling towel set" data-sub="cardio" data-cost="1.1" data-moq="500" data-margin="45" data-demand="39"><td class="prod"><b>Cooling Towel, Set of 3</b><span>PVA cooling, mesh bag</span></td><td>Cardio &amp; Recovery</td><td>$1.10</td><td>500</td><td>39</td><td>57</td><td>45</td><td>69</td><td class="total">51.0</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="yoga mat carry bag" data-sub="accessories" data-cost="2.4" data-moq="300" data-margin="46" data-demand="41"><td class="prod"><b>Yoga Mat Carry Bag</b><span>Canvas, shoulder strap, pocket</span></td><td>Accessories &amp; Storage</td><td>$2.40</td><td>300</td><td>41</td><td>55</td><td>46</td><td>67</td><td class="total">51.0</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="yoga strap cotton 2m" data-sub="yoga" data-cost="1.2" data-moq="500" data-margin="42" data-demand="38"><td class="prod"><b>Yoga Strap, Cotton 2 m</b><span>D-ring buckle, 6 colours</span></td><td>Yoga &amp; Stretch</td><td>$1.20</td><td>500</td><td>38</td><td>58</td><td>42</td><td>70</td><td class="total">50.4</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="workout gloves full-finger" data-sub="accessories" data-cost="2.6" data-moq="300" data-margin="44" data-demand="43"><td class="prod"><b>Workout Gloves, Full-Finger</b><span>Silicone grip, touchscreen tip</span></td><td>Accessories &amp; Storage</td><td>$2.60</td><td>300</td><td>43</td><td>56</td><td>44</td><td>62</td><td class="total">50.3</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="headband sweat set of 3" data-sub="accessories" data-cost="0.8" data-moq="1000" data-margin="40" data-demand="36"><td class="prod"><b>Headband Sweat Set of 3</b><span>Cotton terry, 3 colours</span></td><td>Accessories &amp; Storage</td><td>$0.80</td><td>1000</td><td>36</td><td>62</td><td>40</td><td>70</td><td class="total">50.3</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="ankle weights 2kg pair" data-sub="cardio" data-cost="4.2" data-moq="300" data-margin="43" data-demand="50"><td class="prod"><b>Ankle Weights, 2 kg Pair</b><span>Adjustable strap, sand filled</span></td><td>Cardio &amp; Recovery</td><td>$4.20</td><td>300</td><td>50</td><td>48</td><td>43</td><td>61</td><td class="total">50.0</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="balance pad tpe" data-sub="yoga" data-cost="3.6" data-moq="200" data-margin="44" data-demand="46"><td class="prod"><b>Balance Pad, TPE</b><span>Non-slip surface, 50 x 40 cm</span></td><td>Yoga &amp; Stretch</td><td>$3.60</td><td>200</td><td>46</td><td>49</td><td>44</td><td>63</td><td class="total">49.7</td><td><span class="tag no">Cut at browser</span></td></tr>
+      <tr data-name="resistance tube handles set" data-sub="accessories" data-cost="2.9" data-moq="300" data-margin="42" data-demand="45"><td class="prod"><b>Resistance Tube Handles, Set</b><span>Foam grips, carabiner clips</span></td><td>Accessories &amp; Storage</td><td>$2.90</td><td>300</td><td>45</td><td>51</td><td>42</td><td>60</td><td class="total">48.8</td><td><span class="tag no">Cut at browser</span></td></tr>
+    </table></div>
+    <p class="lede" style="margin-top:14px;">Try it: set <b>Demand 70+</b> and the browser keeps only five products &mdash; and the highest-demand one of them, the massage gun at 84, still fails on margin and competition. That is the point of the filter: demand alone never carries a product. The top eight by total score advance to full scoring in the next stage.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">4</span>Stage 2 &mdash; Score the products</h2>
+    <p class="lede">The eight highest-scoring candidates are scored in full. Every candidate is scored 0&ndash;100 on four criteria. The weights reflect what actually kills a new listing: weak demand, a crowded page, thin margin after freight, or a supplier that cannot deliver.</p>
+    <div class="criteria">
+      <div class="crit"><b>Demand</b><div class="w">30%</div><p>Search volume trend, seasonality, review velocity on the target marketplace.</p></div>
+      <div class="crit"><b>Competition</b><div class="w">25%</div><p>How crowded the first page is. A higher score means a more winnable page.</p></div>
+      <div class="crit"><b>Margin</b><div class="w">25%</div><p>Unit cost, freight and fees against target retail. Landed cost is what counts.</p></div>
+      <div class="crit"><b>Supply risk</b><div class="w">20%</div><p>Supplier verification, lead time, MOQ flexibility and defect history.</p></div>
+    </div>
+    <div class="tscroll"><table class="scorecard">
+      <colgroup><col style="width:36px"><col style="width:24%"><col style="width:11.5%"><col style="width:11.5%"><col style="width:11.5%"><col style="width:11.5%"><col style="width:8%"><col style="width:10%"></colgroup>
+      <tr><th>Rank</th><th>Product</th><th>Demand</th><th>Competition</th><th>Margin</th><th>Supply risk</th><th>Total</th><th></th></tr>
+      <tr>
+        <td><span class="rank top">1</span></td>
+        <td class="prod"><b>Eco TPE Yoga Mat, 6 mm</b><span>Non-slip, carry strap, 3 colours</span></td>
+        <td class="sc"><span class="bar"><i style="width:79%"></i></span>79</td>
+        <td class="sc"><span class="bar"><i style="width:55%"></i></span>55</td>
+        <td class="sc"><span class="bar"><i style="width:66%"></i></span>66</td>
+        <td class="sc"><span class="bar"><i style="width:81%"></i></span>81</td>
+        <td class="total">70.2</td><td><span class="tag go">Shortlist</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">2</span></td>
+        <td class="prod"><b>Resistance Band Set, 5 levels</b><span>Latex, handles + door anchor</span></td>
+        <td class="sc"><span class="bar"><i style="width:82%"></i></span>82</td>
+        <td class="sc"><span class="bar"><i class="low" style="width:38%"></i></span>38</td>
+        <td class="sc"><span class="bar"><i style="width:72%"></i></span>72</td>
+        <td class="sc"><span class="bar"><i style="width:78%"></i></span>78</td>
+        <td class="total">67.7</td><td><span class="tag go">Shortlist</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">3</span></td>
+        <td class="prod"><b>Adjustable Dumbbell Set, 5&ndash;24 kg</b><span>Dial-adjust, pair, stand optional</span></td>
+        <td class="sc"><span class="bar"><i style="width:88%"></i></span>88</td>
+        <td class="sc"><span class="bar"><i style="width:42%"></i></span>42</td>
+        <td class="sc"><span class="bar"><i style="width:61%"></i></span>61</td>
+        <td class="sc"><span class="bar"><i style="width:74%"></i></span>74</td>
+        <td class="total">67.0</td><td><span class="tag test">Test batch</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">4</span></td>
+        <td class="prod"><b>Ab Wheel with Knee Mat</b><span>Wide wheel, non-slip grips</span></td>
+        <td class="sc"><span class="bar"><i style="width:57%"></i></span>57</td>
+        <td class="sc"><span class="bar"><i style="width:63%"></i></span>63</td>
+        <td class="sc"><span class="bar"><i style="width:66%"></i></span>66</td>
+        <td class="sc"><span class="bar"><i style="width:80%"></i></span>80</td>
+        <td class="total">65.4</td><td><span class="tag no">Pass</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">5</span></td>
+        <td class="prod"><b>Pilates Ring, 14 inch</b><span>Steel core, foam padded</span></td>
+        <td class="sc"><span class="bar"><i style="width:49%"></i></span>49</td>
+        <td class="sc"><span class="bar"><i style="width:72%"></i></span>72</td>
+        <td class="sc"><span class="bar"><i style="width:68%"></i></span>68</td>
+        <td class="sc"><span class="bar"><i style="width:78%"></i></span>78</td>
+        <td class="total">65.3</td><td><span class="tag no">Pass</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">6</span></td>
+        <td class="prod"><b>Weighted Jump Rope</b><span>Adjustable cable, ball bearings</span></td>
+        <td class="sc"><span class="bar"><i style="width:61%"></i></span>61</td>
+        <td class="sc"><span class="bar"><i style="width:68%"></i></span>68</td>
+        <td class="sc"><span class="bar"><i style="width:54%"></i></span>54</td>
+        <td class="sc"><span class="bar"><i style="width:82%"></i></span>82</td>
+        <td class="total">65.2</td><td><span class="tag no">Pass</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">7</span></td>
+        <td class="prod"><b>Foam Roller, EPP 45 cm</b><span>High-density, massage texture</span></td>
+        <td class="sc"><span class="bar"><i style="width:71%"></i></span>71</td>
+        <td class="sc"><span class="bar"><i style="width:48%"></i></span>48</td>
+        <td class="sc"><span class="bar"><i style="width:63%"></i></span>63</td>
+        <td class="sc"><span class="bar"><i style="width:77%"></i></span>77</td>
+        <td class="total">64.5</td><td><span class="tag no">Pass</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">8</span></td>
+        <td class="prod"><b>Adjustable Kettlebell, 12 kg</b><span>Dial-adjust, cast shell</span></td>
+        <td class="sc"><span class="bar"><i style="width:66%"></i></span>66</td>
+        <td class="sc"><span class="bar"><i style="width:44%"></i></span>44</td>
+        <td class="sc"><span class="bar"><i class="low" style="width:52%"></i></span>52</td>
+        <td class="sc"><span class="bar"><i class="low" style="width:59%"></i></span>59</td>
+        <td class="total">55.6</td><td><span class="tag no">Pass</span></td>
+      </tr>
+    </table></div>
+    <p class="lede" style="margin-top:14px;">Reading the table: the dumbbell has the highest demand in the set, but it loses on competition and freight. The yoga mat wins because it is strong everywhere and weak nowhere. A single high score never carries a product.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">5</span>Stage 3 &mdash; Score the physical sample</h2>
+    <p class="lede">A spreadsheet score is not enough. For each shortlisted product the client sends a photo and the factory spec sheet, and the physical sample is scored on five checks &mdash; material, build quality, packaging, compliance marks, and cost structure. A sample that fails here stops the product, however good the paper score is.</p>
+
+    <div class="sample-block">
+      <div class="head" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;"><h3>#1 &mdash; Eco TPE Yoga Mat, 6 mm</h3><span class="s-score">Sample score <b>84.6</b> / 100</span></div>
+      <div class="sample-top">
+        <div class="sample-art">
+          <svg viewBox="0 0 132 88" role="img" aria-label="Illustrative drawing of a rolled yoga mat"><rect x="8" y="24" width="108" height="40" rx="20" fill="#0e7490"/><rect x="8" y="24" width="108" height="40" rx="20" fill="none" stroke="#155e75" stroke-width="2"/><circle cx="104" cy="44" r="20" fill="#155e75"/><circle cx="104" cy="44" r="9" fill="#67e8f9"/><rect x="18" y="34" width="60" height="4" rx="2" fill="#67e8f9" opacity="0.7"/><rect x="18" y="46" width="44" height="4" rx="2" fill="#67e8f9" opacity="0.5"/></svg>
+          <span>Illustrative image &mdash; SAMPLE</span>
+        </div>
+        <div class="upload"><span class="ok">&#10003; Received</span> &nbsp;<b>sample-yoga-mat.jpg</b> &mdash; photo + factory spec sheet, 12 Nov 2026, 1.2 MB<br>Factory sample, batch A-114. Photo checked against the spec sheet line by line before scoring.</div>
+      </div>
+      <div class="tscroll"><table>
+        <tr><th>Check</th><th>Score</th><th>What was found</th></tr>
+        <tr><td class="prod"><b>Material</b></td><td class="sc"><span class="bar"><i style="width:88%"></i></span>88</td><td>TPE density even across the mat, no smell after 48 hours airing out. REACH sample report on file.</td></tr>
+        <tr><td class="prod"><b>Build quality</b></td><td class="sc"><span class="bar"><i style="width:84%"></i></span>84</td><td>Edge finish clean, thickness 6.0 mm with variance of only &plusmn;0.3 mm across five measured points.</td></tr>
+        <tr><td class="prod"><b>Packaging</b></td><td class="sc"><span class="bar"><i style="width:79%"></i></span>79</td><td>Plain polybag only, no retail box. A custom printed box is needed before the listing goes live.</td></tr>
+        <tr><td class="prod"><b>Compliance marks</b></td><td class="sc"><span class="bar"><i style="width:90%"></i></span>90</td><td>CE and REACH marks present and the test report matches the batch number on the sample.</td></tr>
+        <tr><td class="prod"><b>Cost structure</b></td><td class="sc"><span class="bar"><i style="width:82%"></i></span>82</td><td>Material 52%, labour 21%, packaging 9%, freight share 18%. Margin holds at the $29.99 target retail.</td></tr>
+      </table></div>
+    </div>
+
+    <div class="sample-block">
+      <div class="head" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;"><h3>#2 &mdash; Resistance Band Set, 5 levels</h3><span class="s-score">Sample score <b>82.6</b> / 100</span></div>
+      <div class="sample-top">
+        <div class="sample-art">
+          <svg viewBox="0 0 132 88" role="img" aria-label="Illustrative drawing of resistance bands"><path d="M14 66 C 34 20, 52 20, 66 44 S 104 70, 120 30" fill="none" stroke="#0e7490" stroke-width="7" stroke-linecap="round"/><path d="M14 76 C 36 34, 56 34, 70 54 S 100 78, 118 44" fill="none" stroke="#155e75" stroke-width="7" stroke-linecap="round" opacity="0.65"/><circle cx="14" cy="66" r="6" fill="#0f2a3d"/><circle cx="120" cy="30" r="6" fill="#0f2a3d"/></svg>
+          <span>Illustrative image &mdash; SAMPLE</span>
+        </div>
+        <div class="upload"><span class="ok">&#10003; Received</span> &nbsp;<b>sample-band-set.jpg</b> &mdash; photo + factory spec sheet, 12 Nov 2026, 0.9 MB<br>Factory sample, batch B-207. Latex tensile test included with the spec sheet.</div>
+      </div>
+      <div class="tscroll"><table>
+        <tr><th>Check</th><th>Score</th><th>What was found</th></tr>
+        <tr><td class="prod"><b>Material</b></td><td class="sc"><span class="bar"><i style="width:76%"></i></span>76</td><td>Latex tensile test passes, but batch-to-batch variance is noted in the factory report. Re-test each batch.</td></tr>
+        <tr><td class="prod"><b>Build quality</b></td><td class="sc"><span class="bar"><i style="width:81%"></i></span>81</td><td>Handles solid, stitching even, carabiner clips operate smoothly. No defects in the sample set.</td></tr>
+        <tr><td class="prod"><b>Packaging</b></td><td class="sc"><span class="bar"><i style="width:85%"></i></span>85</td><td>Retail-ready box with carry pouch included. Ready to list as received.</td></tr>
+        <tr><td class="prod"><b>Compliance marks</b></td><td class="sc"><span class="bar"><i style="width:83%"></i></span>83</td><td>No restricted substances found. A latex allergy warning must be added to the listing text.</td></tr>
+        <tr><td class="prod"><b>Cost structure</b></td><td class="sc"><span class="bar"><i style="width:88%"></i></span>88</td><td>Unit $3.40 leaves room for bundle pricing with the yoga mat without cutting margin.</td></tr>
+      </table></div>
+    </div>
+
+    <div class="sample-block">
+      <div class="head" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;"><h3>#3 &mdash; Adjustable Dumbbell Set, 5&ndash;24 kg</h3><span class="s-score">Sample score <b>77.2</b> / 100</span></div>
+      <div class="sample-top">
+        <div class="sample-art">
+          <svg viewBox="0 0 132 88" role="img" aria-label="Illustrative drawing of an adjustable dumbbell"><rect x="14" y="30" width="22" height="28" rx="4" fill="#0f2a3d"/><rect x="40" y="34" width="16" height="20" rx="3" fill="#155e75"/><rect x="56" y="40" width="20" height="8" rx="3" fill="#0e7490"/><rect x="76" y="34" width="16" height="20" rx="3" fill="#155e75"/><rect x="96" y="30" width="22" height="28" rx="4" fill="#0f2a3d"/><circle cx="66" cy="44" r="4" fill="#67e8f9"/></svg>
+          <span>Illustrative image &mdash; SAMPLE</span>
+        </div>
+        <div class="upload"><span class="ok">&#10003; Received</span> &nbsp;<b>sample-dumbbell.jpg</b> &mdash; photo + factory spec sheet, 13 Nov 2026, 1.4 MB<br>Factory sample, batch C-031. Weight tolerance sheet included with the spec sheet.</div>
+      </div>
+      <div class="tscroll"><table>
+        <tr><th>Check</th><th>Score</th><th>What was found</th></tr>
+        <tr><td class="prod"><b>Material</b></td><td class="sc"><span class="bar"><i style="width:86%"></i></span>86</td><td>Cast shell solid, dial mechanism smooth through the full range. No casting flaws visible.</td></tr>
+        <tr><td class="prod"><b>Build quality</b></td><td class="sc"><span class="bar"><i style="width:78%"></i></span>78</td><td>Dial has slight play at the maximum setting. Flagged for pre-shipment inspection on every batch.</td></tr>
+        <tr><td class="prod"><b>Packaging</b></td><td class="sc"><span class="bar"><i style="width:72%"></i></span>72</td><td>Heavy item, foam protection thin. Re-pack with denser foam before shipping, or expect damage claims.</td></tr>
+        <tr><td class="prod"><b>Compliance marks</b></td><td class="sc"><span class="bar"><i style="width:80%"></i></span>80</td><td>Weight tolerance &plusmn;2%, inside the listing claims. CE mark present on the dial housing.</td></tr>
+        <tr><td class="prod"><b>Cost structure</b></td><td class="sc"><span class="bar"><i style="width:70%"></i></span>70</td><td>Freight takes the largest share of landed cost. Margin depends on the sea freight rate at order time.</td></tr>
+      </table></div>
+    </div>
+    <p class="lede" style="margin-top:14px;">Sample scores are the average of the five checks. The yoga mat scores highest because nothing about the sample needs fixing; the dumbbell scores lowest because packaging and freight already eat into it before the first sale.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">6</span>Stage 4 &mdash; Match and compare factories</h2>
+    <p class="lede">The sample decides which factories are even worth talking to. Matching runs on four rules, then every matched factory is scored on seven checks: sales volume, reviews and ratings, certifications, years in business, export experience, response rate, and on-time delivery.</p>
+    <div class="grid4">
+      <div class="fact"><div class="k">Rule 1</div><div class="v">Category expertise</div><div class="k" style="margin-top:6px;text-transform:none;letter-spacing:0;font-weight:400;">The factory must already make this product type, not something next to it.</div></div>
+      <div class="fact"><div class="k">Rule 2</div><div class="v">MOQ fit</div><div class="k" style="margin-top:6px;text-transform:none;letter-spacing:0;font-weight:400;">Minimum order must fit the client&rsquo;s first-order budget, not the factory&rsquo;s ideal.</div></div>
+      <div class="fact"><div class="k">Rule 3</div><div class="v">Export history</div><div class="k" style="margin-top:6px;text-transform:none;letter-spacing:0;font-weight:400;">Proven shipments to the US or EU, with the paperwork to prove it.</div></div>
+      <div class="fact"><div class="k">Rule 4</div><div class="v">Certifications</div><div class="k" style="margin-top:6px;text-transform:none;letter-spacing:0;font-weight:400;">The right certificates for the material &mdash; checked, not just claimed.</div></div>
+    </div>
+    <div class="tscroll wide"><table>
+      <tr><th>Rank</th><th>Factory (sample)</th><th>Matched to</th><th>30-day orders</th><th>Rating</th><th>Sales</th><th>Reviews</th><th>Certs</th><th>Years</th><th>Export</th><th>Resp.</th><th>On-time</th><th>Total</th><th></th></tr>
+      <tr>
+        <td><span class="rank top">1</span></td>
+        <td class="prod"><b>Yongkang FitGear Co.</b><span>Zhejiang &middot; 9 yrs &middot; 120 staff</span></td>
+        <td>Yoga Mat</td><td>1,240</td><td>4.8 (312)</td><td>86</td><td>88</td><td>92</td><td>85</td><td>90</td><td>87</td><td>89</td>
+        <td class="total">88.2</td><td><span class="tag go">Primary</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">2</span></td>
+        <td class="prod"><b>Yiwu PowerBand Ltd.</b><span>Zhejiang &middot; 7 yrs &middot; 150 staff</span></td>
+        <td>Band Set</td><td>2,150</td><td>4.7 (421)</td><td>91</td><td>84</td><td>80</td><td>78</td><td>88</td><td>92</td><td>86</td>
+        <td class="total">85.8</td><td><span class="tag go">Primary</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">3</span></td>
+        <td class="prod"><b>Shanghai IronWorks Co.</b><span>Shanghai &middot; 12 yrs &middot; 200 staff</span></td>
+        <td>Dumbbell</td><td>980</td><td>4.6 (267)</td><td>83</td><td>80</td><td>88</td><td>90</td><td>86</td><td>76</td><td>82</td>
+        <td class="total">83.5</td><td><span class="tag go">Primary</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">4</span></td>
+        <td class="prod"><b>Ningbo FlexPro Ltd.</b><span>Zhejiang &middot; 6 yrs &middot; 80 staff</span></td>
+        <td>Yoga Mat</td><td>860</td><td>4.6 (188)</td><td>79</td><td>81</td><td>78</td><td>72</td><td>84</td><td>90</td><td>83</td>
+        <td class="total">80.8</td><td><span class="tag factory">Backup</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">5</span></td>
+        <td class="prod"><b>Guangzhou ElasticWorks</b><span>Guangdong &middot; 5 yrs &middot; 60 staff</span></td>
+        <td>Band Set</td><td>640</td><td>4.5 (156)</td><td>74</td><td>79</td><td>76</td><td>69</td><td>81</td><td>85</td><td>80</td>
+        <td class="total">77.6</td><td><span class="tag factory">Backup</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank">6</span></td>
+        <td class="prod"><b>Cangzhou CastFit Co.</b><span>Hebei &middot; 8 yrs &middot; 90 staff</span></td>
+        <td>Dumbbell</td><td>410</td><td>4.4 (98)</td><td>68</td><td>71</td><td>70</td><td>75</td><td>72</td><td>78</td><td>74</td>
+        <td class="total">71.8</td><td><span class="tag factory">Backup</span></td>
+      </tr>
+    </table></div>
+    <p class="lede" style="margin-top:14px;">Weights: sales volume 20%, reviews 20%, certifications 15%, years in business 10%, export experience 15%, response rate 10%, on-time delivery 10%. Every product gets a primary factory and a backup, so a single factory problem never stops the launch. <b>All factory names, figures and ratings on this page are fictional sample data.</b></p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">7</span>Stage 5 &mdash; Verification evidence</h2>
+    <p class="lede">Before any factory is recommended, three checks are run and the evidence is kept on file. The screenshots below are <b>illustrative mock-ups of the check results</b> &mdash; they show what the verification pack looks like, with sample data and a SAMPLE watermark. They are not screenshots of any real supplier.</p>
+
+    <div class="shot">
+      <div class="shot-head"><span class="dots"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#facc15"></span><span class="dot" style="background:#4ade80"></span></span><span class="url">1688.com/supplier-profile &mdash; SAMPLE VIEW</span><span class="sample-badge">Sample</span></div>
+      <div class="shot-body">
+        <div class="shot-wm"><span>SAMPLE</span></div>
+        <h4>Check 1 &mdash; Supplier profile</h4>
+        <div class="kv">
+          <div>Company: <b>Yongkang FitGear Co. (sample)</b></div>
+          <div>Status: <b>Verified supplier badge</b></div>
+          <div>Years on platform: <b>9 years (sample)</b></div>
+          <div>Transaction level: <b>5 diamonds (sample)</b></div>
+          <div>Main products: <b>Yoga mats, fitness accessories</b></div>
+          <div>Response rate: <b>94% within 12 hours (sample)</b></div>
+        </div>
+        <p class="cap"><b>Result: pass.</b> Business licence, address and main-product history all match the company the factory claims to be. A supplier whose profile and licence disagree is rejected here, before any price is discussed.</p>
+      </div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-head"><span class="dots"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#facc15"></span><span class="dot" style="background:#4ade80"></span></span><span class="url">certificate-check / ISO 9001 &mdash; SAMPLE VIEW</span><span class="sample-badge">Sample</span></div>
+      <div class="shot-body">
+        <div class="shot-wm"><span>SAMPLE</span></div>
+        <h4>Check 2 &mdash; Certification</h4>
+        <div class="kv">
+          <div>Certificate: <b>ISO 9001:2015 (sample)</b></div>
+          <div>Certificate no.: <b>CN-SAMPLE-2026-0147</b></div>
+          <div>Scope: <b>Manufacture of fitness accessories</b></div>
+          <div>Issued: <b>Mar 2025 (sample)</b></div>
+          <div>Valid to: <b>Mar 2028 (sample)</b></div>
+          <div>Status: <b>Valid &mdash; checked against issuing body</b></div>
+        </div>
+        <p class="cap"><b>Result: pass.</b> The certificate number is looked up with the issuing body, not taken from the factory&rsquo;s own PDF. An expired certificate, or one whose scope does not cover the product, is a fail.</p>
+      </div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-head"><span class="dots"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#facc15"></span><span class="dot" style="background:#4ade80"></span></span><span class="url">1688.com/transaction-history &mdash; SAMPLE VIEW</span><span class="sample-badge">Sample</span></div>
+      <div class="shot-body">
+        <div class="shot-wm"><span>SAMPLE</span></div>
+        <h4>Check 3 &mdash; Transaction history, last 90 days</h4>
+        <div class="bars">
+          <i style="height:42%"></i><i style="height:55%"></i><i class="dim" style="height:38%"></i><i style="height:63%"></i><i style="height:70%"></i><i style="height:58%"></i><i class="dim" style="height:47%"></i><i style="height:76%"></i><i style="height:84%"></i><i style="height:72%"></i><i style="height:90%"></i><i style="height:100%"></i>
+        </div>
+        <div class="bars-label"><span>12 weeks ago</span><span>Weekly orders, sample figures</span><span>This week</span></div>
+        <div class="kv" style="margin-top:14px;">
+          <div>90-day orders: <b>1,240 (sample)</b></div>
+          <div>Dispute rate: <b>0.4% (sample)</b></div>
+          <div>On-time shipment: <b>96% (sample)</b></div>
+          <div>Repeat-buyer rate: <b>31% (sample)</b></div>
+        </div>
+        <p class="cap"><b>Result: pass.</b> Order volume is rising, disputes are low, and a third of buyers come back. A factory with high volume but a rising dispute rate is flagged, not rewarded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">8</span>Stage 6 &mdash; Final composite ranking</h2>
+    <p class="lede">The final score combines all three views of the same product: product score 50%, sample score 20%, matched factory score 30%. A product has to be good on paper, good in the hand, and made by a factory that delivers &mdash; one view alone is not enough.</p>
+    <div class="tscroll"><table>
+      <tr><th>Rank</th><th>Product</th><th>Product score &times; 50%</th><th>Sample score &times; 20%</th><th>Factory score &times; 30%</th><th>Final</th><th>Outcome</th></tr>
+      <tr>
+        <td><span class="rank top">1</span></td>
+        <td class="prod"><b>Eco TPE Yoga Mat, 6 mm</b><span>Factory: Yongkang FitGear Co. (88.2)</span></td>
+        <td>70.2 &times; 0.5 = 35.1</td><td>84.6 &times; 0.2 = 16.9</td><td>88.2 &times; 0.3 = 26.5</td>
+        <td class="final-num">78.5</td><td><span class="tag go">Launch first</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">2</span></td>
+        <td class="prod"><b>Resistance Band Set, 5 levels</b><span>Factory: Yiwu PowerBand Ltd. (85.8)</span></td>
+        <td>67.7 &times; 0.5 = 33.9</td><td>82.6 &times; 0.2 = 16.5</td><td>85.8 &times; 0.3 = 25.7</td>
+        <td class="final-num">76.1</td><td><span class="tag go">Launch as bundle</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank top">3</span></td>
+        <td class="prod"><b>Adjustable Dumbbell Set, 5&ndash;24 kg</b><span>Factory: Shanghai IronWorks Co. (83.5)</span></td>
+        <td>67.0 &times; 0.5 = 33.5</td><td>77.2 &times; 0.2 = 15.4</td><td>83.5 &times; 0.3 = 25.1</td>
+        <td class="final-num">74.0</td><td><span class="tag test">Test batch only</span></td>
+      </tr>
+    </table></div>
+    <p class="lede" style="margin-top:14px;">The order is the same as the paper ranking, but the gaps are smaller now: the dumbbell closes in because its factory is strong, even though its sample and freight hold it back. That is why the final ranking exists &mdash; it catches what any single score misses.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">9</span>The shortlist</h2>
+    <p class="lede">Three products make the cut. Each one is picked for a different job in the launch: a hero, a bundle add-on, and a tested premium anchor.</p>
+
+    <div class="pick">
+      <img class="pick-img" src="assets/product-yoga-mat.jpg" alt="Eco TPE yoga mat, 6 mm — sample product photo">
+      <div class="head"><h3>#1 &mdash; Eco TPE Yoga Mat, 6 mm</h3><span class="score">Final <b>78.5</b> / 100</span></div>
+      <ul>
+        <li><b>Why it wins:</b> the most balanced profile in the set. Steady demand, a winnable first page, and one of the lowest supply-risk scores in the set &mdash; verified suppliers, short lead time, flexible MOQ.</li>
+        <li><b>Sample:</b> 84.6 &mdash; nothing about the sample needs fixing except the retail box. <b>Factory:</b> Yongkang FitGear, 88.2, with Ningbo FlexPro (80.8) as backup.</li>
+        <li><b>How to differentiate:</b> eco TPE + a printed alignment guide + carry strap. The listing competes on material and design, not on price.</li>
+        <li><b>Watch out for:</b> colour and thickness variants multiply inventory. Launch with two colours only.</li>
+      </ul>
+      <div class="econ">
+        <div><div class="k">Sample unit cost</div><div class="v">$6.80</div></div>
+        <div><div class="k">Sample landed cost</div><div class="v">$8.90</div></div>
+        <div><div class="k">Target retail</div><div class="v">$29.99</div></div>
+        <div><div class="k">Est. gross margin</div><div class="v">~70%</div></div>
+      </div>
+    </div>
+
+    <div class="pick">
+      <img class="pick-img" src="assets/product-resistance-bands.jpg" alt="Resistance band set, 5 levels — sample product photo">
+      <div class="head"><h3>#2 &mdash; Resistance Band Set, 5 levels</h3><span class="score">Final <b>76.1</b> / 100</span></div>
+      <ul>
+        <li><b>Why it wins:</b> the best margin in the set and almost no freight problem &mdash; light, small, cheap to ship and hard to break in transit.</li>
+        <li><b>Sample:</b> 82.6 &mdash; retail-ready packaging, but latex variance means every batch is re-tested. <b>Factory:</b> Yiwu PowerBand, 85.8, with Guangzhou ElasticWorks (77.6) as backup.</li>
+        <li><b>How to differentiate:</b> sell it as a bundle with the yoga mat and a 4-week workout guide. On its own the page is crowded; as a bundle it is an attachment sale.</li>
+        <li><b>Watch out for:</b> latex quality varies between factories. Pre-shipment inspection is mandatory, not optional.</li>
+      </ul>
+      <div class="econ">
+        <div><div class="k">Sample unit cost</div><div class="v">$3.40</div></div>
+        <div><div class="k">Sample landed cost</div><div class="v">$4.00</div></div>
+        <div><div class="k">Target retail</div><div class="v">$19.99</div></div>
+        <div><div class="k">Est. gross margin</div><div class="v">~80%</div></div>
+      </div>
+    </div>
+
+    <div class="pick">
+      <div class="head"><h3>#3 &mdash; Adjustable Dumbbell Set, 5&ndash;24 kg &mdash; test batch only</h3><span class="score">Final <b>74.0</b> / 100</span></div>
+      <ul>
+        <li><b>Why it is included:</b> by far the highest demand in the niche. If it works, it is the highest-ticket item in the store and lifts average order value.</li>
+        <li><b>Sample:</b> 77.2 &mdash; solid product, thin foam protection, freight-heavy. <b>Factory:</b> Shanghai IronWorks, 83.5, with Cangzhou CastFit (71.8) as backup.</li>
+        <li><b>Why it is only a test batch:</b> heavy freight, the most crowded first page, and the highest return risk. A full order would tie up most of the $8,000 budget in one SKU.</li>
+        <li><b>Condition:</b> order 100 units only, after the mat and bands are live. Expand only if the return rate stays under 3% in the first 30 days.</li>
+      </ul>
+      <div class="econ">
+        <div><div class="k">Sample unit cost</div><div class="v">$18.50</div></div>
+        <div><div class="k">Sample landed cost</div><div class="v">$25.30</div></div>
+        <div><div class="k">Target retail</div><div class="v">$59.99</div></div>
+        <div><div class="k">Est. gross margin</div><div class="v">~58%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">10</span>Why the rest were rejected</h2>
+    <p class="lede">A shortlist is only credible if the rejections are explained. Each of these is a defensible product &mdash; just not for this brief, this budget, and this launch.</p>
+    <div class="tscroll"><table>
+      <tr><th>Product</th><th>Score</th><th>Reason for rejection</th></tr>
+      <tr><td class="prod"><b>Ab Wheel with Knee Mat</b></td><td class="total">65.4</td><td>Low ticket price and almost no room to differentiate. It would need heavy ad spend to move, and the return on that spend is thin.</td></tr>
+      <tr><td class="prod"><b>Pilates Ring, 14 inch</b></td><td class="total">65.3</td><td>Small, seasonal market. Demand is too thin to carry a launch slot, even though the page itself is winnable.</td></tr>
+      <tr><td class="prod"><b>Weighted Jump Rope</b></td><td class="total">65.2</td><td>Price war at the low end. The winnable listings are all under $15, which leaves no margin after freight and fees.</td></tr>
+      <tr><td class="prod"><b>Foam Roller, EPP 45 cm</b></td><td class="total">64.5</td><td>A commodity. Bulky for its price, so freight eats the margin, and the first page is dominated by established brands.</td></tr>
+      <tr><td class="prod"><b>Adjustable Kettlebell, 12 kg</b></td><td class="total">55.6</td><td>Lowest score of the eight. Heavy, high supply risk from foundry lead times, and the margin disappears after freight. Not viable for this budget.</td></tr>
+    </table></div>
+    <p class="lede" style="margin-top:14px;">Cut earlier, at the browser stage: the <b>Massage Gun Mini (55.5)</b> has the second-highest demand in the whole set, but the first page is brutal and the margin is thin &mdash; demand alone does not save it. The other fifteen browser candidates score 48.8&ndash;54.6 and never reach full scoring.</p>
+  </section>
+
+  <section class="verdict">
+    <h2><span class="num">11</span>Recommendation</h2>
+    <p><b>Launch with the yoga mat as the hero SKU, add the resistance bands as a bundle, and test the dumbbell in a small batch only after the first two are live.</b> That order spends the $8,000 budget where the risk is lowest and the margin is highest, and it keeps one high-ticket test in reserve instead of betting the launch on it.</p>
+    <ol>
+      <li><b>Weeks 1&ndash;2:</b> confirm the two primary factories &mdash; Yongkang FitGear for the mat, Yiwu PowerBand for the bands &mdash; order samples, run pre-shipment inspection on the bands.</li>
+      <li><b>Weeks 3&ndash;4:</b> place the first order &mdash; 500 mats, 800 band sets. Build the bundle listing and the workout guide.</li>
+      <li><b>Weeks 5&ndash;8:</b> launch, track return rate and ad cost per order. Order 100 dumbbell sets from Shanghai IronWorks only if the first two SKUs hold their margin targets.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">12</span>What you get in a live engagement</h2>
+    <p class="lede">This sample shows the format. A live selection runs the same workflow on your niche and your budget: current marketplace data instead of sample figures, the full category searched and filtered, physical sample scoring, factory comparison with a verification pack, and one final ranked recommendation. The deliverable is the report &mdash; the judgement, the numbers, and the next steps &mdash; not a tool you have to learn to use.</p>
+    <div class="grid2">
+      <div class="fact"><div class="k">Included</div><div class="v">5 verified suppliers compared, written recommendation</div></div>
+      <div class="fact"><div class="k">Delivery</div><div class="v">5 days, report + supplier follow-up log</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <b>SAMPLE DEMO &mdash; all products, factories, scores and prices on this page are fictional and illustrative.</b><br>
+    Prepared by Jiang Peng L. &middot; AI Automation &amp; Sourcing &middot; Upwork &middot; November 2026<br>
+    This page is a demonstration of the working process. It is not a live tool and contains no real supplier data.
+  </footer>
+
+</div>
+<script>
+(function () {
+  var q = document.getElementById('q');
+  var sub = document.getElementById('sub');
+  var price = document.getElementById('price');
+  var moq = document.getElementById('moq');
+  var margin = document.getElementById('margin');
+  var demand = document.getElementById('demand');
+  var reset = document.getElementById('reset');
+  var count = document.getElementById('count');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#browser tr[data-name]'));
+  function priceBand(c) {
+    if (c < 2) return 'under2';
+    if (c < 5) return '2to5';
+    if (c < 10) return '5to10';
+    return '10plus';
+  }
+  function moqBand(m) {
+    if (m <= 100) return 'm100';
+    if (m <= 300) return 'm300';
+    if (m <= 500) return 'm500';
+    return 'm1000';
+  }
+  function apply() {
+    var term = q.value.trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function (r) {
+      var ok = true;
+      if (term && r.getAttribute('data-name').indexOf(term) === -1) ok = false;
+      if (ok && sub.value && r.getAttribute('data-sub') !== sub.value) ok = false;
+      if (ok && price.value && priceBand(parseFloat(r.getAttribute('data-cost'))) !== price.value) ok = false;
+      if (ok && moq.value && moqBand(parseInt(r.getAttribute('data-moq'), 10)) !== moq.value) ok = false;
+      if (ok && margin.value && parseInt(r.getAttribute('data-margin'), 10) < parseInt(margin.value, 10)) ok = false;
+      if (ok && demand.value && parseInt(r.getAttribute('data-demand'), 10) < parseInt(demand.value, 10)) ok = false;
+      r.style.display = ok ? '' : 'none';
+      if (ok) shown += 1;
+    });
+    count.innerHTML = 'Showing <b>' + shown + '</b> of 24 candidates &mdash; all figures are sample data.';
+  }
+  [q, sub, price, moq, margin, demand].forEach(function (el) {
+    el.addEventListener('input', apply);
+    el.addEventListener('change', apply);
+  });
+  reset.addEventListener('click', function () {
+    q.value = ''; sub.value = ''; price.value = ''; moq.value = ''; margin.value = ''; demand.value = '';
+    apply();
+  });
+})();
+</script>
+
+<script>
+(function(){document.querySelectorAll('[data-carousel]').forEach(function(car){var slides=car.querySelectorAll('.c-slide'),dots=car.querySelectorAll('.c-dots button'),i=0,timer=null;function show(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,k){s.classList.toggle('is-active',k===i)});dots.forEach(function(d,k){d.classList.toggle('is-active',k===i)})}function auto(){clearInterval(timer);timer=setInterval(function(){show(i+1)},5000)}var prev=car.querySelector('.c-prev'),next=car.querySelector('.c-next');if(prev)prev.addEventListener('click',function(){show(i-1);auto()});if(next)next.addEventListener('click',function(){show(i+1);auto()});dots.forEach(function(d,k){d.addEventListener('click',function(){show(k);auto()})});car.addEventListener('mouseenter',function(){clearInterval(timer)});car.addEventListener('mouseleave',auto);auto()})})();
+</script>
+</body>
+</html>

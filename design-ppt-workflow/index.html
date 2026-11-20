@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPT Design Workflow - From Manuscript to Finished Slides (SAMPLE)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1e293b; background: #f4f2ec; line-height: 1.6; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 64px; }
+  .sample-badge { display: inline-block; background: #b45309; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .12em; padding: 4px 10px; border-radius: 999px; }
+  .hero { background: #f6f1e7; color: #1c1917; border: 1px solid #e7e0cf; border-top: none; border-radius: 0 0 18px 18px; padding: 44px 34px 38px; margin-bottom: 28px; position: relative; overflow: hidden; }
+  .hero h1 { font-size: 34px; line-height: 1.2; margin: 14px 0 10px; font-family: Georgia, "Times New Roman", serif; }
+  .hero p { color: #57534e; max-width: 720px; font-size: 16px; }
+  .hero .rule { color: #b45309; font-weight: 700; margin-top: 14px; font-size: 15px; }
+  .hero .wm { position: absolute; right: 14px; top: 12px; transform: rotate(18deg); color: rgba(180,83,9,.14); font-size: 30px; font-weight: 800; letter-spacing: .1em; }
+  .flowstrip { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; }
+  .flowstrip .step { flex: 1 1 120px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 12px; text-align: center; }
+  .flowstrip .n { display: block; font-size: 12px; font-weight: 800; color: #1f4e79; letter-spacing: .08em; }
+  .flowstrip .t { font-size: 13px; font-weight: 700; color: #0f172a; }
+  section.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 26px 28px; margin-bottom: 22px; }
+  section.card h2 { font-size: 21px; color: #0f172a; margin-bottom: 4px; font-family: Georgia, "Times New Roman", serif; }
+  section.card h2 .k { color: #1f4e79; }
+  section.card .sub { color: #64748b; font-size: 14px; margin-bottom: 16px; }
+  .doc { background: #fafaf8; border: 1px solid #e7e5df; border-left: 4px solid #1f4e79; border-radius: 8px; padding: 18px 20px; font-size: 14.5px; color: #334155; }
+  .doc .doctitle { font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+  .doc p { margin-bottom: 8px; }
+  .doc p:last-child { margin-bottom: 0; }
+  .keys { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .key { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; background: #f8fafc; }
+  .key .tag { font-size: 11px; font-weight: 800; letter-spacing: .1em; color: #b45309; }
+  .key .txt { font-weight: 700; color: #0f172a; font-size: 15px; margin: 4px 0 2px; }
+  .key .why { font-size: 13px; color: #64748b; }
+  .map { border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+  .map .row { display: flex; gap: 14px; padding: 12px 16px; border-bottom: 1px solid #eef2f7; align-items: baseline; }
+  .map .row:last-child { border-bottom: none; }
+  .map .no { font-family: Georgia, serif; font-size: 20px; color: #1f4e79; min-width: 30px; font-weight: 700; }
+  .map .st { font-weight: 700; color: #0f172a; }
+  .map .pu { font-size: 13px; color: #64748b; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-weight: 700; font-size: 14px; padding: 9px 16px; border-radius: 999px; cursor: pointer; }
+  .tabs button.active { background: #1f4e79; border-color: #1f4e79; color: #fff; }
+  .slide { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; position: relative; padding: 7% 8%; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 10px 30px rgba(15,23,42,.18); }
+  .slide .wm2 { position: absolute; right: 14px; bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; opacity: .55; }
+  .slide .kicker { font-size: 12px; font-weight: 800; letter-spacing: .18em; margin-bottom: 10px; }
+  .slide h3 { font-size: clamp(22px, 4.2vw, 40px); line-height: 1.12; }
+  .slide p { font-size: clamp(12px, 1.6vw, 16px); margin-top: 10px; opacity: .85; }
+  .slide .stat { display: flex; gap: 26px; margin-top: 18px; }
+  .slide .stat div b { display: block; font-size: clamp(18px, 3vw, 30px); }
+  .slide .stat div span { font-size: 11px; letter-spacing: .1em; opacity: .75; }
+  .slide-ed { background: #f6f1e7; color: #1c1917; font-family: Georgia, "Times New Roman", serif; border: 1px solid #e7e0cf; }
+  .slide-ed .kicker { color: #b45309; }
+  .slide-ed .rule2 { width: 56px; height: 4px; background: #b45309; margin-top: 14px; }
+  .slide-sw { background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; }
+  .slide-sw .kicker { color: #dc2626; }
+  .slide-sw h3 { font-family: Arial, Helvetica, sans-serif; font-weight: 900; letter-spacing: -0.01em; }
+  .slide-sw .bar { width: 64px; height: 8px; background: #dc2626; margin-top: 14px; }
+  .slide-dk { background: #0b1220; color: #f1f5f9; }
+  .slide-dk .kicker { color: #fbbf24; }
+  .slide-dk h3 { font-family: Arial, Helvetica, sans-serif; font-weight: 800; }
+  .slide-dk .glow { width: 64px; height: 4px; background: #fbbf24; margin-top: 14px; }
+  .stylenote { font-size: 13.5px; color: #475569; margin-top: 12px; }
+  .stylenote b { color: #0f172a; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .panel { border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 18px; }
+  .panel h4 { font-size: 14px; margin-bottom: 8px; color: #0f172a; }
+  .panel.before { background: #fef2f2; border-color: #fecaca; }
+  .panel.after { background: #f0fdf4; border-color: #bbf7d0; }
+  .panel p { font-size: 14px; color: #475569; }
+  .bars { display: flex; align-items: flex-end; gap: 14px; height: 150px; padding: 10px 6px 0; border-bottom: 2px solid #334155; }
+  .bars .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .bars .col i { display: block; width: 100%; max-width: 54px; background: #1f4e79; border-radius: 4px 4px 0 0; }
+  .bars .col b { font-size: 13px; margin-top: 6px; color: #0f172a; }
+  .bars .col span { font-size: 11px; color: #64748b; }
+  table.mini { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 12px; }
+  table.mini th, table.mini td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #e2e8f0; }
+  table.mini th { color: #64748b; font-size: 12px; letter-spacing: .06em; }
+  .motion { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .motion .m { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; text-align: center; background: #f8fafc; }
+  .motion .box { height: 64px; border-radius: 8px; background: #1f4e79; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin-bottom: 10px; }
+  .motion .a-fade { animation: fadein 2.4s ease-in-out infinite; }
+  .motion .a-slide { animation: slideup 2.4s ease-in-out infinite; }
+  .motion .a-zoom { animation: zoomin 2.4s ease-in-out infinite; }
+  @keyframes fadein { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes slideup { 0%,100% { transform: translateY(14px); opacity: .3; } 50% { transform: translateY(0); opacity: 1; } }
+  @keyframes zoomin { 0%,100% { transform: scale(.88); opacity: .4; } 50% { transform: scale(1); opacity: 1; } }
+  .motion .m b { display: block; color: #0f172a; font-size: 14px; }
+  .motion .m span { font-size: 12.5px; color: #64748b; }
+  .deliv { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .deliv .d { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
+  .deliv .d b { color: #0f172a; display: block; margin-bottom: 2px; }
+  .deliv .d span { font-size: 13px; color: #64748b; }
+  .check { list-style: none; }
+  .check li { padding: 6px 0 6px 26px; position: relative; font-size: 14.5px; color: #334155; border-bottom: 1px solid #f1f5f9; }
+  .check li:before { content: "✓"; position: absolute; left: 4px; color: #15803d; font-weight: 800; }
+  .foot { text-align: center; color: #94a3b8; font-size: 12.5px; margin-top: 8px; }
+  .wm-fixed { position: fixed; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+  .wm-fixed span { position: absolute; color: rgba(100,116,139,.07); font-size: 64px; font-weight: 900; letter-spacing: .2em; transform: rotate(-24deg); white-space: nowrap; }
+  @media (max-width: 700px) {
+    .hero { padding: 30px 20px 26px; }
+    .hero h1 { font-size: 25px; }
+    section.card { padding: 20px 18px; }
+    .keys, .cols, .deliv { grid-template-columns: 1fr; }
+    .motion { grid-template-columns: 1fr; }
+  }
+
+  /* --- image carousel (added) --- */
+  .carousel{position:relative;margin-top:20px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;background:#fff}
+  .c-track{position:relative;aspect-ratio:16/8}
+  .c-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none}
+  .c-slide.is-active{opacity:1;pointer-events:auto}
+  .c-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .c-slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 92px 14px 18px;color:#fff;font-size:14px;font-weight:600;background:linear-gradient(to top,rgba(15,42,61,.75),rgba(15,42,61,0))}
+  .c-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(255,255,255,.88);color:#1e293b;font-size:22px;line-height:36px;text-align:center;cursor:pointer;z-index:2;padding:0}
+  .c-prev{left:12px}.c-next{right:12px}
+  .c-dots{position:absolute;bottom:14px;right:14px;display:flex;gap:6px;z-index:2}
+  .c-dots button{width:9px;height:9px;border-radius:50%;border:1px solid #fff;background:rgba(255,255,255,.55);cursor:pointer;padding:0}
+  .c-dots button.is-active{background:#fff}
+  @media(max-width:640px){.c-track{aspect-ratio:16/10}.c-slide figcaption{font-size:12.5px;padding-right:78px}}
+
+  .flowstrip .ic{display:block;color:#1f4e79;margin-bottom:6px}
+  .flowstrip .ic svg{width:22px;height:22px}
+</style>
+</head>
+<body>
+<div class="wm-fixed" aria-hidden="true">
+  <span style="top:12%;left:-4%">SAMPLE</span>
+  <span style="top:38%;left:22%">SAMPLE</span>
+  <span style="top:64%;left:-2%">SAMPLE</span>
+  <span style="top:88%;left:30%">SAMPLE</span>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <div class="wm">SAMPLE</div>
+    <span class="sample-badge">SAMPLE WORK - DEMO ONLY</span>
+    <h1>From a text draft to finished slides</h1>
+    <p>A complete PPT design workflow, shown end to end on a sample manuscript. A client sends a rough draft; we return a presentation that is ready to present.</p>
+    <p class="rule">This is not a tool. It is a finished sample of the work a client receives.</p>
+  </div>
+
+<div class="carousel" data-carousel aria-label="Demo gallery">
+  <div class="c-track">
+    <figure class="c-slide is-active"><img src="assets/carousel-meeting.jpg" alt="Business presentation in a meeting room"><figcaption>From a rough draft to slides ready to present</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-studio.jpg" alt="Design studio with slide layouts and swatches"><figcaption>Three style directions to choose from — pick one, we build the deck</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-slides.jpg" alt="Finished slides on a big screen"><figcaption>Data into visuals — the numbers become the story</figcaption></figure>
+  </div>
+  <button class="c-arrow c-prev" type="button" aria-label="Previous image">&#8249;</button>
+  <button class="c-arrow c-next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="c-dots">
+    <button type="button" class="is-active" aria-label="Slide 1"></button>
+    <button type="button" aria-label="Slide 2"></button>
+    <button type="button" aria-label="Slide 3"></button>
+  </div>
+</div>
+
+  <div class="flowstrip">
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></span><span class="n">STEP 1</span><span class="t">Analyse the draft</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span><span class="n">STEP 2</span><span class="t">Find key points</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="n">STEP 3</span><span class="t">Layout &amp; structure</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/></svg></span><span class="n">STEP 4</span><span class="t">Pick a style</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M2 20h20"/></svg></span><span class="n">STEP 5</span><span class="t">Data into visuals</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8V4z"/></svg></span><span class="n">STEP 6</span><span class="t">Motion &amp; polish</span></div>
+    <div class="step"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></svg></span><span class="n">STEP 7</span><span class="t">Deliver</span></div>
+  </div>
+
+  <section class="card">
+    <h2><span class="k">Step 1.</span> Analyse the manuscript</h2>
+    <p class="sub">The job starts with the client's own words. Here is the sample draft we worked from - a fictional Q3 business review from a made-up outdoor gear brand.</p>
+    <div class="doc">
+      <div class="doctitle">Sample manuscript (excerpt) - Northwind Outdoor, Q3 2026 review</div>
+      <p>"This quarter was our strongest so far. Revenue reached 96, up from 78 in Q2 and 62 in Q1, which is about 55 percent growth since the start of the year. Two things drove it: the new trail shoe line sold far better than we planned, and repeat customers came back at a much higher rate after we fixed shipping times. The weak spot was the accessories range, which barely grew, and our ad spend kept rising while the return on it fell. Next quarter we will focus on the shoe line, cut the two worst-performing ad channels, and put the savings into the loyalty programme."</p>
+      <p>"We also opened two new retail partners in the quarter, and the team grew from 14 to 19 people. Hiring is still the main risk: three roles are open and the warehouse lead role has been empty for six weeks."</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 2.</span> Find the key points in the text</h2>
+    <p class="sub">A draft is a wall of words. We pull out the five points the audience must remember, and everything else becomes supporting detail.</p>
+    <div class="keys">
+      <div class="key"><div class="tag">HEADLINE</div><div class="txt">Strongest quarter so far: revenue 96</div><div class="why">The one number the whole deck opens with.</div></div>
+      <div class="key"><div class="tag">GROWTH DRIVER 1</div><div class="txt">Trail shoe line beat its plan</div><div class="why">New product, not discounts, drove the growth.</div></div>
+      <div class="key"><div class="tag">GROWTH DRIVER 2</div><div class="txt">Repeat customers returned after faster shipping</div><div class="why">An operations fix became a revenue story.</div></div>
+      <div class="key"><div class="tag">WEAK SPOT</div><div class="txt">Accessories flat; ad return falling</div><div class="why">Stated honestly, with a fix attached.</div></div>
+      <div class="key"><div class="tag">NEXT QUARTER</div><div class="txt">Double down on shoes, cut 2 ad channels, fund loyalty</div><div class="why">Three actions, each tied to a number above.</div></div>
+      <div class="key"><div class="tag">RISK</div><div class="txt">Hiring: warehouse lead open 6 weeks</div><div class="why">Flagged on its own slide, not buried.</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 3.</span> Layout and structure</h2>
+    <p class="sub">Key points become a slide map before any design starts, so the story flows and nothing important is lost.</p>
+    <div class="map">
+      <div class="row"><span class="no">01</span><div><div class="st">Cover - Q3 2026: Our Strongest Quarter</div><div class="pu">One headline, one number, one image.</div></div></div>
+      <div class="row"><span class="no">02</span><div><div class="st">Agenda</div><div class="pu">Results, drivers, weak spots, next quarter.</div></div></div>
+      <div class="row"><span class="no">03</span><div><div class="st">Q3 at a glance</div><div class="pu">Revenue 62 - 78 - 96, +55% since Q1.</div></div></div>
+      <div class="row"><span class="no">04</span><div><div class="st">What drove growth</div><div class="pu">Trail shoes + repeat customers.</div></div></div>
+      <div class="row"><span class="no">05</span><div><div class="st">What did not work</div><div class="pu">Accessories flat, ad return falling.</div></div></div>
+      <div class="row"><span class="no">06</span><div><div class="st">Q4 plan</div><div class="pu">Three actions, owners, dates.</div></div></div>
+      <div class="row"><span class="no">07</span><div><div class="st">Risks and hiring</div><div class="pu">Warehouse lead open 6 weeks.</div></div></div>
+      <div class="row"><span class="no">08</span><div><div class="st">Closing - What we need from you</div><div class="pu">One ask, one decision, one date.</div></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 4.</span> Unify the style - the client chooses</h2>
+    <p class="sub">We offer 3 style directions per project. The client picks one from real sample slides, then the whole deck is built in that style - same fonts, same colours, same rules on every slide.</p>
+    <div class="tabs">
+      <button class="active" onclick="showStyle(0,this)">1 - Editorial</button>
+      <button onclick="showStyle(1,this)">2 - Swiss Data</button>
+      <button onclick="showStyle(2,this)">3 - Dark Signal</button>
+    </div>
+    <div id="style0" class="slide slide-ed">
+      <div class="kicker">NORTHWIND OUTDOOR - Q3 2026</div>
+      <h3>Our strongest<br>quarter so far.</h3>
+      <p>Revenue 96, up 55% since Q1. Growth came from the product, not from discounts.</p>
+      <div class="rule2"></div>
+      <div class="wm2">SAMPLE</div>
+    </div>
+    <div id="style1" class="slide slide-sw" style="display:none">
+      <div class="kicker">Q3 2026 - RESULTS</div>
+      <h3>Revenue 96.<br>Up 55% since Q1.</h3>
+      <div class="stat"><div><b>78 to 96</b><span>Q2 TO Q3</span></div><div><b>+23%</b><span>QUARTER ON QUARTER</span></div><div><b>2</b><span>NEW RETAIL PARTNERS</span></div></div>
+      <div class="bar"></div>
+      <div class="wm2">SAMPLE</div>
+    </div>
+    <div id="style2" class="slide slide-dk" style="display:none">
+      <div class="kicker">NORTHWIND OUTDOOR</div>
+      <h3>Q3 2026: the quarter<br>the plan worked.</h3>
+      <p>Trail shoes beat plan. Repeat customers came back. Revenue 96.</p>
+      <div class="glow"></div>
+      <div class="wm2">SAMPLE</div>
+    </div>
+    <p class="stylenote"><b>How the choice works:</b> we send 3 direction samples like these before building the deck. The client picks one, we lock its fonts, colours and grid, and every slide follows it. No mixed styles, no surprises at delivery.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 5.</span> Turn data into visuals</h2>
+    <p class="sub">Numbers buried in a paragraph are forgotten. The same numbers as a chart and a table are remembered - and believed.</p>
+    <div class="cols">
+      <div class="panel before">
+        <h4>Before - numbers in text</h4>
+        <p>"Revenue reached 96, up from 78 in Q2 and 62 in Q1, which is about 55 percent growth since the start of the year. Two things drove it: the new trail shoe line sold far better than we planned, and repeat customers came back at a much higher rate after we fixed shipping times."</p>
+        <p style="margin-top:10px; font-size:13px; color:#991b1b;"><b>Problem:</b> the reader must do the maths. Most will not.</p>
+      </div>
+      <div class="panel after">
+        <h4>After - chart and table</h4>
+        <div class="bars">
+          <div class="col"><i style="height:55%"></i><b>62</b><span>Q1</span></div>
+          <div class="col"><i style="height:72%"></i><b>78</b><span>Q2</span></div>
+          <div class="col"><i style="height:90%"></i><b>96</b><span>Q3</span></div>
+          <div class="col"><i style="height:78%; background:#b45309"></i><b>84</b><span>Q4 plan</span></div>
+        </div>
+        <table class="mini">
+          <tr><th>Quarter</th><th>Revenue</th><th>Change</th></tr>
+          <tr><td>Q1</td><td>62</td><td>-</td></tr>
+          <tr><td>Q2</td><td>78</td><td>+26%</td></tr>
+          <tr><td>Q3</td><td>96</td><td>+23%</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 6.</span> Transitions, motion and polish</h2>
+    <p class="sub">Motion is used to guide the eye, not to show off. One transition family per deck, kept consistent, so the presentation feels professional instead of busy.</p>
+    <div class="motion">
+      <div class="m"><div class="box a-fade">FADE</div><b>Fade</b><span>Headlines and key numbers appear softly; used for results slides.</span></div>
+      <div class="m"><div class="box a-slide">SLIDE UP</div><b>Slide up</b><span>Charts and tables rise into place; used for data slides.</span></div>
+      <div class="m"><div class="box a-zoom">ZOOM</div><b>Zoom</b><span>One idea grows to full size; used for the closing ask.</span></div>
+    </div>
+    <ul class="check" style="margin-top:16px;">
+      <li>One font family for headings, one for body - the same on all 8 slides.</li>
+      <li>Numbers checked against the manuscript: 62, 78, 96 and +55% match the draft.</li>
+      <li>Text checked for overflow at every slide size; nothing is cut off or overlapping.</li>
+      <li>Colour contrast checked so the deck reads in a bright meeting room, not only on screen.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="k">Step 7.</span> What the client receives</h2>
+    <p class="sub">This is what $40/hr buys: a finished, editable presentation - not a screenshot, not a PDF alone.</p>
+    <div class="deliv">
+      <div class="d"><b>Editable PPTX file</b><span>Native text, charts and tables - the client can edit every word and number later.</span></div>
+      <div class="d"><b>PDF export</b><span>Print-ready version for sharing with people who do not have PowerPoint.</span></div>
+      <div class="d"><b>Speaker notes</b><span>Short notes under each slide, so the presenter knows what to say.</span></div>
+      <div class="d"><b>Source and style file</b><span>Fonts, colours and the style rules, so the next deck matches this one.</span></div>
+      <div class="d"><b>3 style directions to choose from</b><span>Sample slides up front; the client picks before production starts.</span></div>
+      <div class="d"><b>2 revision rounds included</b><span>Changes after the first full draft, within the agreed scope.</span></div>
+    </div>
+  </section>
+
+  <p class="foot">All names, numbers and slides on this page are fictional sample data, shown to demonstrate the workflow. A live engagement uses the client's own manuscript and figures. SAMPLE - DEMO ONLY.</p>
+</div>
+<script>
+function showStyle(i, btn) {
+  for (var k = 0; k < 3; k++) {
+    document.getElementById('style' + k).style.display = (k === i) ? 'flex' : 'none';
+  }
+  var btns = btn.parentElement.querySelectorAll('button');
+  for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+  btn.classList.add('active');
+}
+</script>
+
+<script>
+(function(){document.querySelectorAll('[data-carousel]').forEach(function(car){var slides=car.querySelectorAll('.c-slide'),dots=car.querySelectorAll('.c-dots button'),i=0,timer=null;function show(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,k){s.classList.toggle('is-active',k===i)});dots.forEach(function(d,k){d.classList.toggle('is-active',k===i)})}function auto(){clearInterval(timer);timer=setInterval(function(){show(i+1)},5000)}var prev=car.querySelector('.c-prev'),next=car.querySelector('.c-next');if(prev)prev.addEventListener('click',function(){show(i-1);auto()});if(next)next.addEventListener('click',function(){show(i+1);auto()});dots.forEach(function(d,k){d.addEventListener('click',function(){show(k);auto()})});car.addEventListener('mouseenter',function(){clearInterval(timer)});car.addEventListener('mouseleave',auto);auto()})})();
+</script>
+</body>
+</html>

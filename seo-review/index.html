@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standalone Store SEO Workflow - Rank on Google and AI Search (SAMPLE)</title>
+<style>
+  :root {
+    --navy: #10263f;
+    --teal: #0f766e;
+    --teal-light: #e6f4f1;
+    --ink: #1c2733;
+    --muted: #5b6b7c;
+    --line: #dde4ea;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --amber-bg: #fff7e0;
+    --amber-border: #d9a400;
+    --amber-text: #7a5b00;
+    --red: #b3261e;
+    --red-bg: #fdecea;
+    --orange: #b45309;
+    --orange-bg: #fef3e2;
+    --blue: #1d4ed8;
+    --blue-bg: #e8eefc;
+    --green: #137333;
+    --green-bg: #e6f4ea;
+    --violet: #6d28d9;
+    --violet-bg: #f1eafe;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55; font-size: 15px; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px 64px; }
+
+  .sample-bar { background: var(--amber-bg); border-bottom: 2px solid var(--amber-border); color: var(--amber-text); font-size: 13px; font-weight: 600; text-align: center; padding: 9px 16px; letter-spacing: .02em; }
+
+  header.hero { background: #dbe7f2; color: #10263f; border: 1px solid #c3d2e2; border-top: none; border-radius: 0 0 14px 14px; padding: 36px 36px 28px; margin-bottom: 24px; }
+  header.hero .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #0f766e; margin: 0 0 10px; font-weight: 700; }
+  header.hero h1 { font-size: 30px; line-height: 1.2; margin: 0 0 10px; font-weight: 800; }
+  header.hero .lede { color: #334155; font-size: 15.5px; max-width: 660px; margin: 0 0 22px; }
+  .flow-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .flow-chip { background: #ffffff; border: 1px solid #c3d2e2; border-radius: 8px; padding: 9px 10px; font-size: 12.5px; line-height: 1.35; color: #334155; }
+  .flow-chip b { display: block; color: #0f766e; font-size: 12px; letter-spacing: .04em; margin-bottom: 2px; }
+  .flow-chip.geo { border-color: #c4b5fd; }
+  .flow-chip.geo b { color: #6d28d9; }
+
+  .intro { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 28px; margin-bottom: 26px; }
+  .intro p { margin: 0 0 10px; }
+  .intro p:last-child { margin-bottom: 0; }
+  .intro strong { color: var(--navy); }
+
+  /* Stepper */
+  .steps { position: relative; }
+  .steps::before { content: ""; position: absolute; left: 29px; top: 24px; bottom: 24px; width: 3px; background: #cbd8e3; border-radius: 2px; }
+  .step { position: relative; display: flex; gap: 22px; margin-bottom: 26px; }
+  .step-num { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 50%; background: #dbe7f2; color: #10263f; font-size: 24px; font-weight: 800; display: flex; align-items: center; justify-content: center; z-index: 1; border: 4px solid var(--bg); }
+  .step-num.geo { background: var(--violet); }
+  .step-body { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px; min-width: 0; }
+  .step-body h2 { font-size: 20px; color: var(--navy); margin: 0 0 4px; }
+  .step-body h2 .tag { font-size: 11px; letter-spacing: .08em; vertical-align: 3px; background: var(--violet-bg); color: var(--violet); border-radius: 20px; padding: 3px 9px; font-weight: 700; margin-left: 8px; }
+  .step-body .goal { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+  .step-body .goal strong { color: var(--teal); }
+  .step-body h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); margin: 18px 0 8px; }
+  .step-body h3:first-of-type { margin-top: 0; }
+  .step-body ol.how { margin: 0 0 6px; padding-left: 20px; }
+  .step-body ol.how li { margin-bottom: 8px; }
+  .step-body ol.how li strong { color: var(--navy); }
+
+  .sample-box { background: #f8fafb; border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin-top: 14px; }
+  .sample-box .sample-label { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; color: var(--amber-text); text-transform: uppercase; margin-bottom: 8px; }
+  .sample-box p { margin: 0 0 10px; font-size: 14px; }
+  .sample-box p:last-child { margin-bottom: 0; }
+
+  .geo-note { background: var(--violet-bg); border-left: 4px solid var(--violet); border-radius: 0 8px 8px 0; padding: 13px 16px; margin-top: 16px; font-size: 14px; }
+  .geo-note strong { color: var(--violet); }
+  .geo-note p { margin: 0 0 8px; }
+  .geo-note p:last-child { margin-bottom: 0; }
+
+  .callout { background: var(--teal-light); border-left: 4px solid var(--teal); border-radius: 0 8px 8px 0; padding: 13px 16px; margin-top: 14px; font-size: 14px; }
+  .callout strong { color: var(--navy); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0 4px; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  th { text-align: left; background: #f0f3f6; color: var(--navy); font-size: 12.5px; letter-spacing: .03em; text-transform: uppercase; padding: 10px 12px; border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid #eef1f4; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td .detail { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
+  .num-cell { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th.num-cell, td.num-cell { text-align: right; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 20px; padding: 2px 10px; white-space: nowrap; }
+  .pill.crit { background: var(--red-bg); color: var(--red); }
+  .pill.high { background: var(--orange-bg); color: var(--orange); }
+  .pill.med { background: var(--blue-bg); color: var(--blue); }
+  .pill.ok { background: var(--green-bg); color: var(--green); }
+  .pill.geo { background: var(--violet-bg); color: var(--violet); }
+  .rank-miss { color: var(--red); font-weight: 700; }
+  .rank-low { color: var(--orange); font-weight: 700; }
+  .before { color: var(--red); }
+  .after { color: var(--green); }
+
+  code.codeblock { display: block; background: #eef1f4; color: #1c2733; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; white-space: pre; }
+  .faq-sample { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 6px; }
+  .faq-sample .q { background: #f0f3f6; font-weight: 700; padding: 9px 14px; font-size: 14px; color: var(--navy); }
+  .faq-sample .a { padding: 9px 14px; font-size: 14px; border-bottom: 1px solid #eef1f4; }
+  .faq-sample .a:last-child { border-bottom: none; }
+
+  footer { color: var(--muted); font-size: 13px; }
+  footer .prepared { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  footer .prepared strong { color: var(--navy); }
+  footer .fine { padding: 0 4px; }
+
+  @media (max-width: 760px) {
+    header.hero { padding: 26px 20px 22px; }
+    header.hero h1 { font-size: 24px; }
+    .flow-strip { grid-template-columns: 1fr 1fr; }
+    .flow-chip:last-child { grid-column: span 2; }
+    .step { gap: 12px; }
+    .steps::before { left: 19px; }
+    .step-num { flex-basis: 42px; width: 42px; height: 42px; font-size: 18px; border-width: 3px; }
+    .step-body { padding: 18px; }
+    .table-scroll table { min-width: 660px; }
+    table { font-size: 13px; }
+    th, td { padding: 8px; }
+  }
+
+  /* --- image carousel (added) --- */
+  .carousel{position:relative;margin-top:20px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;background:#fff}
+  .c-track{position:relative;aspect-ratio:16/8}
+  .c-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none}
+  .c-slide.is-active{opacity:1;pointer-events:auto}
+  .c-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .c-slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 92px 14px 18px;color:#fff;font-size:14px;font-weight:600;background:linear-gradient(to top,rgba(15,42,61,.75),rgba(15,42,61,0))}
+  .c-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(255,255,255,.88);color:#1e293b;font-size:22px;line-height:36px;text-align:center;cursor:pointer;z-index:2;padding:0}
+  .c-prev{left:12px}.c-next{right:12px}
+  .c-dots{position:absolute;bottom:14px;right:14px;display:flex;gap:6px;z-index:2}
+  .c-dots button{width:9px;height:9px;border-radius:50%;border:1px solid #fff;background:rgba(255,255,255,.55);cursor:pointer;padding:0}
+  .c-dots button.is-active{background:#fff}
+  @media(max-width:640px){.c-track{aspect-ratio:16/10}.c-slide figcaption{font-size:12.5px;padding-right:78px}}
+
+  /* --- feature icon strip (added) --- */
+  .feat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .feat{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px}
+  .feat .ic{width:40px;height:40px;border-radius:10px;background:#e6f4f1;color:#0f766e;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .feat .ic svg{width:22px;height:22px}
+  .feat b{display:block;font-size:14.5px;color:#1e293b}
+  .feat span{display:block;font-size:13px;color:#64748b;margin-top:3px;line-height:1.5}
+  @media(max-width:640px){.feat-strip{grid-template-columns:1fr 1fr}}
+
+  .step-img{margin:16px 0 0}
+  .step-img img{width:100%;height:220px;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block}
+  .step-img figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="sample-bar">SAMPLE WORKFLOW &mdash; fictional store, sample data only. Not a real audit of a real website.</div>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Standalone Store SEO Workflow &middot; Cross-border e-commerce</p>
+    <h1>How to rank a standalone store on Google &mdash; and get cited by AI search</h1>
+    <p class="lede">A step-by-step workflow for taking a Shopify store from invisible to page one: fix the technical base, pick the right keywords, optimise every page, publish content that ranks, earn authority, get recommended inside AI answers, and measure what moves. Every step shows a sample output from a fictional store, so you can see exactly how the work runs.</p>
+    <div class="flow-strip">
+      <div class="flow-chip"><b>STEP 1</b>Technical foundation</div>
+      <div class="flow-chip"><b>STEP 2</b>Keyword research</div>
+      <div class="flow-chip"><b>STEP 3</b>On-page optimisation</div>
+      <div class="flow-chip"><b>STEP 4</b>Content plan</div>
+      <div class="flow-chip"><b>STEP 5</b>Off-page authority</div>
+      <div class="flow-chip geo"><b>STEP 6 &middot; GEO</b>AI search optimisation</div>
+      <div class="flow-chip"><b>STEP 7</b>Measure &amp; iterate</div>
+    </div>
+  </header>
+
+<div class="carousel" data-carousel aria-label="Demo gallery">
+  <div class="c-track">
+    <figure class="c-slide is-active"><img src="assets/carousel-dashboard.jpg" alt="Analytics dashboard on a laptop"><figcaption>Rankings and traffic, tracked weekly — what gets measured gets fixed</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-team.jpg" alt="Team reviewing keyword research"><figcaption>Keyword research — picking the terms that sell, not just the popular ones</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-ai-search.jpg" alt="AI search answering a question on screen"><figcaption>GEO — making the store the answer AI search cites</figcaption></figure>
+  </div>
+  <button class="c-arrow c-prev" type="button" aria-label="Previous image">&#8249;</button>
+  <button class="c-arrow c-next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="c-dots">
+    <button type="button" class="is-active" aria-label="Slide 1"></button>
+    <button type="button" aria-label="Slide 2"></button>
+    <button type="button" aria-label="Slide 3"></button>
+  </div>
+</div>
+
+<div class="feat-strip">
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/></svg></div><b>Rank on Google</b><span>Technical base, on-page and authority, step by step</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div><b>Get cited by AI</b><span>GEO: llms.txt, structure and AI-visible answers</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></div><b>Content that sells</b><span>Buying guides written the way AI quotes them</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M2 20h20"/></svg></div><b>Measured monthly</b><span>Rankings, citations and traffic reviewed and iterated</span></div>
+</div>
+
+  <div class="intro">
+    <p><strong>Who this is for:</strong> a cross-border store owner selling on Shopify (or any standalone platform) to the US, UK or EU, whose store is live but barely visible on Google.</p>
+    <p><strong>How to read it:</strong> follow the steps in order. Each step has a goal, the concrete actions, and a sample output showing what finished work looks like. All examples use one fictional store &mdash; <strong>Nordhaus Living</strong>, Scandinavian homeware &mdash; and all numbers are sample figures.</p>
+    <p><strong>What this is not:</strong> a tool. There is no box to paste a URL into. This page shows the workflow and what its outputs look like; the work itself is done for the client, on their store, with their data.</p>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h2>Technical foundation</h2>
+        <p class="goal"><strong>Goal:</strong> make the store fast, mobile-friendly, and easy for Google to crawl and index. Nothing else works until this is solid.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Crawl first, fix errors first.</strong> Run a full crawl and clear status errors: 404s get 301 redirects to the right page, redirect chains collapse to a single hop.</li>
+          <li><strong>Speed:</strong> compress images to WebP, lazy-load below-fold images, defer chat and review widgets. Target Largest Contentful Paint under 2.5s on product pages.</li>
+          <li><strong>Mobile:</strong> check tap targets, font sizes and layout on a real phone. No horizontal scroll, no text cut off.</li>
+          <li><strong>Indexation:</strong> a clean XML sitemap listing every indexable page, and canonical rules so filtered and sorted URLs do not create duplicate pages.</li>
+          <li><strong>International:</strong> hreflang for each market version (en-US / en-GB / de-DE) plus x-default, so shoppers see the right currency and shipping.</li>
+        </ol>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; technical checklist (fictional store, sample results)</div>
+          <div class="table-scroll"><table>
+            <tr><th>Check</th><th>Sample result</th><th>Action</th></tr>
+            <tr><td>404 errors</td><td><span class="pill crit">41 found</span></td><td>301 redirect each to its current collection</td></tr>
+            <tr><td>Product page speed (LCP)</td><td><span class="pill high">4.8s</span></td><td>Compress hero images, serve WebP</td></tr>
+            <tr><td>Pages in XML sitemap</td><td><span class="pill high">122 of 184</span></td><td>Regenerate sitemap, submit all pages</td></tr>
+            <tr><td>hreflang setup</td><td><span class="pill crit">Missing</span></td><td>Add en-US / en-GB / de-DE + x-default</td></tr>
+            <tr><td>Mobile usability errors</td><td><span class="pill ok">0 found</span></td><td>No action; re-check after theme changes</td></tr>
+            <tr><td>Product structured data</td><td><span class="pill med">Missing</span></td><td>Add Product schema to templates</td></tr>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h2>Keyword research</h2>
+        <p class="goal"><strong>Goal:</strong> pick the keywords that sell, not just the keywords that are popular.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Start from the category, not the product.</strong> List what shoppers type before they know your brand &mdash; &ldquo;linen duvet cover set&rdquo;, not &ldquo;Nordhaus linen set&rdquo;.</li>
+          <li><strong>Sort by search intent:</strong> informational (learning), commercial (comparing), transactional (ready to buy). Commercial terms pay first.</li>
+          <li><strong>Be honest about difficulty.</strong> A new store wins long-tail and comparison terms first; head terms come later, after authority builds.</li>
+          <li><strong>Map one keyword to one page.</strong> One keyword, one page, one job. Two pages chasing the same term cannibalise each other.</li>
+          <li><strong>Check the competitor gap:</strong> which page-one terms do rivals hold that the store does not? Those are the shopping list.</li>
+        </ol>
+        <div class="geo-note">
+          <p><strong>GEO &mdash; also check the AI engines.</strong> For each core question, ask ChatGPT, Perplexity and Google AI Overviews how they answer it, and note who gets cited. If the AI answers quote comparison guides and review roundups, those are the formats to produce. If they quote a competitor&rsquo;s buying guide, that guide is the bar to beat.</p>
+          <p>This is a manual check, done once per category and repeated monthly &mdash; not a dashboard, and not scraped data.</p>
+        </div>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; keyword map (fictional store, sample volumes &amp; ranks)</div>
+          <div class="table-scroll"><table>
+            <tr><th>Keyword</th><th class="num-cell">Searches / mo</th><th>Intent</th><th class="num-cell">Store rank</th><th class="num-cell">Best rival</th><th>Target page</th></tr>
+            <tr><td>scandinavian ceramic vases</td><td class="num-cell">18,100</td><td>Commercial</td><td class="num-cell"><span class="rank-miss">Not ranked</span></td><td class="num-cell">3</td><td>New collection + guide</td></tr>
+            <tr><td>linen duvet cover set</td><td class="num-cell">33,100</td><td>Commercial</td><td class="num-cell"><span class="rank-low">51</span></td><td class="num-cell">4</td><td>Collection page</td></tr>
+            <tr><td>oak coffee table</td><td class="num-cell">27,100</td><td>Commercial</td><td class="num-cell"><span class="rank-low">34</span></td><td class="num-cell">2</td><td>Buying guide</td></tr>
+            <tr><td>minimalist pendant light</td><td class="num-cell">22,200</td><td>Commercial</td><td class="num-cell"><span class="rank-miss">Not ranked</span></td><td class="num-cell">4</td><td>New collection page</td></tr>
+            <tr><td>wool throw blanket</td><td class="num-cell">40,500</td><td>Commercial</td><td class="num-cell"><span class="rank-low">68</span></td><td class="num-cell">3</td><td>Collection + guide</td></tr>
+            <tr><td>stoneware dinner set</td><td class="num-cell">14,800</td><td>Commercial</td><td class="num-cell"><span class="rank-low">29</span></td><td class="num-cell">6</td><td>Collection page</td></tr>
+            <tr><td>rattan storage basket</td><td class="num-cell">9,900</td><td>Commercial</td><td class="num-cell"><span class="rank-miss">Not ranked</span></td><td class="num-cell">5</td><td>Collection page</td></tr>
+            <tr><td>sheepskin rug</td><td class="num-cell">12,100</td><td>Commercial</td><td class="num-cell"><span class="rank-low">43</span></td><td class="num-cell">3</td><td>Care guide</td></tr>
+          </table></div>
+          <p style="margin-top:12px"><strong>Sample AI-answer check (illustrative format, not real citations):</strong> question &ldquo;best linen duvet cover set?&rdquo; &mdash; the sample AI answer quoted a comparison guide and a review roundup; the fictional store was not cited. That tells us the missing format is a comparison guide, not another product page.</p>
+        </div>
+        <figure class="step-img"><img src="assets/step-keywords.jpg" alt="Keyword research: mapping search terms to pages"><figcaption>Keyword research in practice — one keyword, one page, one job. Sample illustration.</figcaption></figure>
+
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h2>On-page optimisation</h2>
+        <p class="goal"><strong>Goal:</strong> every page tells Google exactly what it is about, in the words shoppers use.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Title tags:</strong> target keyword near the front, brand at the end, under 60 characters. One page, one title, no duplicates.</li>
+          <li><strong>Meta descriptions:</strong> one sentence &mdash; benefit plus keyword &mdash; written to earn the click, not to stuff keywords.</li>
+          <li><strong>Product pages:</strong> unique title and description, one H1, alt text on every image, Product schema with price and availability.</li>
+          <li><strong>Collection pages:</strong> 150&ndash;300 words of useful copy above or below the grid, so there is something to rank besides the product grid.</li>
+          <li><strong>Internal links:</strong> every new page links to its collection and two products; orphan pages get linked in from relevant content.</li>
+        </ol>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; before / after titles &amp; descriptions (fictional store)</div>
+          <div class="table-scroll"><table>
+            <tr><th>Page</th><th>Before (sample)</th><th>After (sample)</th></tr>
+            <tr><td>Linen duvet cover set (product)</td><td><span class="before">Title: &ldquo;Nordhaus Living | Homeware&rdquo;</span><br><span class="before">Meta: (missing)</span></td><td><span class="after">Title: &ldquo;Linen Duvet Cover Set &ndash; Stonewashed Belgian Linen | Nordhaus Living&rdquo;</span><br><span class="after">Meta: &ldquo;Stonewashed Belgian linen duvet cover sets in 12 colours. Free shipping over $75. Shop the set that sleeps cooler.&rdquo;</span></td></tr>
+            <tr><td>Ceramic vases (collection)</td><td><span class="before">Title: &ldquo;Vases &ndash; Nordhaus Living&rdquo;</span><br><span class="before">Meta: &ldquo;Shop vases at Nordhaus Living.&rdquo;</span></td><td><span class="after">Title: &ldquo;Scandinavian Ceramic Vases &ndash; Handmade Stoneware | Nordhaus Living&rdquo;</span><br><span class="after">Meta: &ldquo;Handmade Scandinavian ceramic vases in stoneware, from $39. Compare shapes, glazes and sizes &mdash; ships worldwide.&rdquo;</span></td></tr>
+          </table></div>
+          <p style="margin-top:12px">Rule of thumb: if the title could belong to any store, it is wrong. If it could only belong to this page, it is right.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h2>Content plan: blog &amp; buying guides</h2>
+        <p class="goal"><strong>Goal:</strong> publish the pages Google can rank and shoppers actually read &mdash; then keep publishing on a calendar.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Commercial first:</strong> buying guides and comparisons that lead to a product. These earn money, not just traffic.</li>
+          <li><strong>Informational second:</strong> care guides and room ideas that earn links and build topical authority.</li>
+          <li><strong>One question per piece,</strong> answered in the first paragraph. One keyword per piece, from the Step 2 map.</li>
+          <li><strong>Publish on a calendar:</strong> two pieces a month to start, same weekdays, no gaps. Consistency beats bursts.</li>
+          <li><strong>Every piece links</strong> to its collection and two product pages, so content both ranks and sells.</li>
+        </ol>
+        <div class="geo-note">
+          <p><strong>GEO &mdash; write so AI can quote you.</strong> AI answers lift text that is easy to lift: lead with a direct 40&ndash;60 word answer, then a comparison table or a short list, then a FAQ. Add FAQPage and HowTo structured data so engines can use the answer verbatim. A page that buries its answer in paragraph five does not get cited.</p>
+        </div>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; content outline + 4-week calendar (fictional store, sample figures)</div>
+          <p><strong>Outline: &ldquo;Linen vs Cotton Duvet Covers: Which Is Better for Summer?&rdquo;</strong> (target: linen duvet cover set, sample est. ~980 sessions/mo)</p>
+          <p>H2: The short answer &mdash; H2: Linen vs cotton at a glance (comparison table) &mdash; H2: Breathability and sleep temperature &mdash; H2: Feel, weight and break-in &mdash; H2: Care and washing &mdash; H2: Price and how long each lasts &mdash; FAQ: 4 questions with direct answers.</p>
+          <div class="faq-sample">
+            <div class="q">Sample FAQ &mdash; Q: Is linen cooler than cotton in summer?</div>
+            <div class="a">A: Yes, in this sample guide&rsquo;s wording: linen wicks moisture and allows more airflow than most cotton weaves, so it feels cooler on warm nights. That direct answer is the part an AI engine can quote.</div>
+          </div>
+          <div class="table-scroll"><table style="margin-top:12px">
+            <tr><th>Week</th><th>Work</th><th>Output</th></tr>
+            <tr><td>Week 1</td><td>Draft guide 1 (linen vs cotton), outline + FAQ</td><td>Draft ready for review</td></tr>
+            <tr><td>Week 2</td><td>Publish guide 1, add internal links, submit to Search Console</td><td>Live page, indexed</td></tr>
+            <tr><td>Week 3</td><td>Draft guide 2 (oak coffee table buying guide)</td><td>Draft ready for review</td></tr>
+            <tr><td>Week 4</td><td>Publish guide 2, promote (Pinterest, newsletter, forums)</td><td>Live page + first backlinks</td></tr>
+          </table></div>
+          <p style="margin-top:12px">Next 8 pieces follow the same pattern (sample): ceramic vases styling guide, wool throw blanket guide, stoneware vs porcelain, pendant light sizing, rattan storage ideas, sheepskin rug care, Scandinavian bedroom, linen/wool/stoneware care guide. Sample total for all ten: ~6,600 sessions/month once ranked.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h2>Off-page authority</h2>
+        <p class="goal"><strong>Goal:</strong> earn the links and mentions that tell Google the store is trusted.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Digital PR:</strong> one data-led or seasonal story per quarter &mdash; a small survey, a trend roundup, a gift guide journalists can actually use.</li>
+          <li><strong>Get listed where makers get listed:</strong> supplier and stockist pages, design directories, gift guides.</li>
+          <li><strong>Collect reviews:</strong> on-site product reviews plus independent review platforms. Real reviews feed both rankings and AI answers.</li>
+          <li><strong>Promote every guide</strong> where the audience already is: Pinterest, home forums, newsletters. A guide nobody sees earns no links.</li>
+          <li><strong>Never buy links.</strong> One real mention beats ten paid ones, and paid links are the fastest way to lose rankings.</li>
+        </ol>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; outreach target list (fictional publications, sample)</div>
+          <div class="table-scroll"><table>
+            <tr><th>Target (fictional)</th><th>Angle</th><th>Status (sample)</th></tr>
+            <tr><td>The Slow Home Journal</td><td>Linen vs cotton guide for their summer bedding feature</td><td>Pitched</td></tr>
+            <tr><td>Nordic Nest Blog</td><td>Ceramic vase styling photos + maker story</td><td>Accepted</td></tr>
+            <tr><td>Small Space Living</td><td>Rattan storage ideas for small flats</td><td>To pitch</td></tr>
+            <tr><td>Design directory listing</td><td>Store profile + bestsellers</td><td>Listed</td></tr>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 GEO -->
+    <div class="step">
+      <div class="step-num geo">6</div>
+      <div class="step-body">
+        <h2>GEO: Generative Engine Optimisation <span class="tag">AI SEARCH</span></h2>
+        <p class="goal"><strong>Goal:</strong> get the store cited and recommended inside AI answers &mdash; ChatGPT, Perplexity, Google AI Overviews &mdash; not just ranked on Google.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Add llms.txt:</strong> a plain-text file at /llms.txt that tells AI crawlers what the store sells, its key pages, shipping and returns, in short factual lines. No marketing fluff &mdash; crawlers quote facts.</li>
+          <li><strong>Structured data everywhere it applies:</strong> Product, FAQPage, HowTo, Review and Organization schema, so engines can read the facts instead of guessing them.</li>
+          <li><strong>Be citable:</strong> publish pages with numbers, comparisons and named products, and keep facts current. AI engines quote sources that state facts clearly; vague pages never get cited.</li>
+          <li><strong>Earn brand mentions, not just links:</strong> AI answers lean on reviews, forums, videos and roundups. Get the store mentioned there &mdash; review platforms, home forums, YouTube demos &mdash; with the same store name and positioning every time.</li>
+          <li><strong>Keep the brand story consistent:</strong> same name, same positioning, same key facts everywhere an AI might read. Contradictions get the store dropped from answers.</li>
+        </ol>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; llms.txt excerpt (fictional store, sample)</div>
+          <code class="codeblock"># Nordhaus Living - llms.txt (SAMPLE)
+# Scandinavian homeware store. Ships to US, UK, DE.
+# Key pages:
+# - /collections/linen-bedding - Linen duvet cover sets, stonewashed Belgian linen, from $89
+# - /collections/ceramic-vases - Handmade Scandinavian ceramic vases, from $39
+# - /blogs/guides/linen-vs-cotton-duvet-covers - Linen vs cotton buying guide
+# Shipping: free over $75 (US/UK), 3-7 days. Returns: 30 days.</code>
+          <div class="table-scroll"><table style="margin-top:14px">
+            <tr><th>AI visibility check (sample)</th><th class="num-cell">This month</th><th class="num-cell">Last month</th></tr>
+            <tr><td>Test questions where the store is cited</td><td class="num-cell">3 of 10</td><td class="num-cell">2 of 10</td></tr>
+            <tr><td>Mentioned in an AI answer without a link</td><td class="num-cell">2 of 10</td><td class="num-cell">1 of 10</td></tr>
+            <tr><td>Not present in AI answers</td><td class="num-cell">5 of 10</td><td class="num-cell">7 of 10</td></tr>
+            <tr><td>Sessions from AI referrals (sample)</td><td class="num-cell">320 / mo</td><td class="num-cell">90 / mo</td></tr>
+          </table></div>
+          <p style="margin-top:12px">These are sample figures in an illustrative format. Real citation data comes from manually checking the same 10 questions each month and logging what the engines actually say &mdash; no scraped or fabricated citation counts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h2>Measure &amp; iterate</h2>
+        <p class="goal"><strong>Goal:</strong> know what moved, then do more of it &mdash; on Google and in AI answers.</p>
+        <h3>How to do it</h3>
+        <ol class="how">
+          <li><strong>Search Console, weekly:</strong> clicks, impressions, average position, and any new coverage errors. Fix errors the week they appear.</li>
+          <li><strong>Rank tracking, weekly:</strong> the keyword list from Step 2, checked every week, same terms every time.</li>
+          <li><strong>Monthly review:</strong> organic sessions, revenue from organic, and the keyword gap table, updated. What improved, what stalled, what changes next.</li>
+          <li><strong>AI visibility, monthly:</strong> repeat the 10-question citation check from Step 6 and log AI-referred sessions separately from Google traffic.</li>
+          <li><strong>Change one thing at a time per page,</strong> so you know what worked. A page that changes five things at once teaches nothing.</li>
+        </ol>
+        <div class="sample-box">
+          <div class="sample-label">Sample output &mdash; monthly dashboard (fictional store, sample figures)</div>
+          <div class="table-scroll"><table>
+            <tr><th>Metric</th><th class="num-cell">Last month</th><th class="num-cell">This month</th><th class="num-cell">Change</th></tr>
+            <tr><td>Organic sessions</td><td class="num-cell">8,400</td><td class="num-cell">9,150</td><td class="num-cell">+9%</td></tr>
+            <tr><td>Keywords in top 10</td><td class="num-cell">18</td><td class="num-cell">24</td><td class="num-cell">+6</td></tr>
+            <tr><td>Keywords in top 100</td><td class="num-cell">212</td><td class="num-cell">231</td><td class="num-cell">+19</td></tr>
+            <tr><td>AI citation rate (10 test questions)</td><td class="num-cell">2 / 10</td><td class="num-cell">3 / 10</td><td class="num-cell">+1</td></tr>
+            <tr><td>AI-referred sessions</td><td class="num-cell">90</td><td class="num-cell">320</td><td class="num-cell">+230</td></tr>
+            <tr><td>Pages with errors</td><td class="num-cell">41</td><td class="num-cell">12</td><td class="num-cell">&minus;29</td></tr>
+          </table></div>
+          <p style="margin-top:12px"><strong>Weekly routine (sample):</strong> Monday &mdash; Search Console errors; Wednesday &mdash; rank check on the Step 2 list; Friday &mdash; publish or promote one piece. Monthly &mdash; full dashboard above, plus the AI citation check.</p>
+          <div class="callout"><strong>Sample projection:</strong> with Steps 1&ndash;3 complete in month one and content running from month two, the sample model projects +45&ndash;60% organic sessions within six months, plus a growing share of AI-referred visits. Real results depend on the real store, real competition and execution &mdash; this projection is illustrative only.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="prepared">
+      <strong>Prepared by Jiang Peng L.</strong> &mdash; AI Developer | Automation, Sourcing Analysis &amp; Custom Reports.<br>
+      I build AI systems and turn messy information into clear, usable reports. This page shows the workflow I follow for a standalone store, step by step, with sample outputs at every stage. A real engagement runs the same workflow on the client&rsquo;s own store, with their real data, and reports monthly in plain English, in chat, with numbers.
+    </div>
+    <p class="fine">SAMPLE &mdash; Nordhaus Living, Fjord &amp; Form, The Slow Home Journal, Nordic Nest Blog and Small Space Living are fictional names created for this sample. All traffic, ranking, revenue, citation and projection figures on this page are sample numbers for illustration only and do not describe any real website or any real AI answer. No live tools, no visitor data collected, no audit of any URL entered by a visitor.</p>
+  </footer>
+</div>
+
+<script>
+(function(){document.querySelectorAll('[data-carousel]').forEach(function(car){var slides=car.querySelectorAll('.c-slide'),dots=car.querySelectorAll('.c-dots button'),i=0,timer=null;function show(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,k){s.classList.toggle('is-active',k===i)});dots.forEach(function(d,k){d.classList.toggle('is-active',k===i)})}function auto(){clearInterval(timer);timer=setInterval(function(){show(i+1)},5000)}var prev=car.querySelector('.c-prev'),next=car.querySelector('.c-next');if(prev)prev.addEventListener('click',function(){show(i-1);auto()});if(next)next.addEventListener('click',function(){show(i+1);auto()});dots.forEach(function(d,k){d.addEventListener('click',function(){show(k);auto()})});car.addEventListener('mouseenter',function(){clearInterval(timer)});car.addEventListener('mouseleave',auto);auto()})})();
+</script>
+</body>
+</html>

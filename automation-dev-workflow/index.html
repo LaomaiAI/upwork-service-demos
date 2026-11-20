@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automation &amp; Website Development Workflow - SAMPLE</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1e293b; background: #f1f5f9; line-height: 1.6; }
+  .watermark { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.05;
+    background-image: repeating-linear-gradient(-45deg, transparent 0 180px, #94a3b8 180px 181px); }
+  .watermark::after { content: "SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE"; position: absolute; top: 50%; left: -10%; width: 120%; transform: rotate(-18deg); font-size: 90px; font-weight: 800; color: #94a3b8; letter-spacing: 20px; white-space: nowrap; }
+  .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 24px 20px 64px; }
+  .badge { display: inline-block; background: #b91c1c; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 4px; }
+  .badge.soft { background: #e0e7ff; color: #3730a3; }
+  header { background: #e6ecf3; color: #1e293b; border: 1px solid #d3dce8; border-radius: 16px; padding: 40px 36px 34px; }
+  header h1 { font-size: 34px; line-height: 1.2; margin: 14px 0 10px; }
+  header p.lede { font-size: 17px; color: #475569; max-width: 760px; }
+  header .meta { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 22px; color: #64748b; font-size: 14px; }
+  header .meta b { color: #1e293b; }
+  .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px 20px; margin: 20px 0; font-size: 14px; color: #78350f; }
+  .note b { color: #92400e; }
+  section.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px 30px; margin: 20px 0; }
+  h2 { font-size: 23px; margin-bottom: 6px; color: #0f172a; }
+  h3 { font-size: 17px; margin: 18px 0 8px; color: #0f172a; }
+  .sub { color: #64748b; font-size: 15px; margin-bottom: 14px; }
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin: 18px 0 6px; }
+  .flow .step { flex: 1 1 140px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; text-align: center; }
+  .flow .step .n { display: inline-block; width: 28px; height: 28px; line-height: 28px; border-radius: 50%; background: #1d4ed8; color: #fff; font-weight: 700; font-size: 14px; }
+  .flow .step p { font-size: 13px; font-weight: 600; margin-top: 8px; color: #334155; }
+  .flow .arrow { align-self: center; color: #94a3b8; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+  th, td { border: 1px solid #e2e8f0; padding: 9px 11px; text-align: left; vertical-align: top; }
+  th { background: #f8fafc; color: #334155; }
+  .scroll { overflow-x: auto; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 12px; }
+  .module { border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 18px; background: #f8fafc; }
+  .module h4 { font-size: 15px; color: #0f172a; margin-bottom: 4px; }
+  .module p { font-size: 14px; color: #475569; }
+  .module .tag { display: inline-block; font-size: 12px; font-weight: 700; color: #1d4ed8; background: #dbeafe; border-radius: 4px; padding: 2px 8px; margin-bottom: 8px; }
+  .check { list-style: none; }
+  .check li { padding: 7px 0 7px 28px; position: relative; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+  .check li:last-child { border-bottom: none; }
+  .check li::before { content: "✓"; position: absolute; left: 4px; top: 7px; color: #16a34a; font-weight: 800; }
+  .pass { color: #16a34a; font-weight: 700; }
+  .quote { background: #f8fafc; border-left: 4px solid #1d4ed8; padding: 14px 18px; border-radius: 0 10px 10px 0; font-size: 14px; color: #334155; margin: 12px 0; }
+  .quote b { color: #0f172a; }
+  .deliver { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px 16px; font-size: 14px; margin-top: 14px; }
+  .deliver b { color: #1e40af; }
+  .stage-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .stage-num { background: #1d4ed8; color: #fff; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 3px 12px; white-space: nowrap; }
+  footer { text-align: center; color: #64748b; font-size: 13px; margin-top: 28px; }
+  .cta { background: #e6ecf3; color: #1e293b; border: 1px solid #d3dce8; border-radius: 16px; padding: 30px; margin-top: 20px; }
+  .cta h2 { color: #1e293b; }
+  .cta p { color: #475569; font-size: 15px; margin-top: 8px; }
+  .cta .deliver { background: #ffffff; border-color: #cbd5e1; color: #334155; }
+  .cta .deliver b { color: #1d4ed8; }
+  @media (max-width: 640px) {
+    header { padding: 28px 20px; }
+    header h1 { font-size: 26px; }
+    section.card { padding: 20px 16px; }
+    .flow .arrow { display: none; }
+  }
+
+  /* --- image carousel (added) --- */
+  .carousel{position:relative;margin-top:20px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;background:#fff}
+  .c-track{position:relative;aspect-ratio:16/8}
+  .c-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none}
+  .c-slide.is-active{opacity:1;pointer-events:auto}
+  .c-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .c-slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 92px 14px 18px;color:#fff;font-size:14px;font-weight:600;background:linear-gradient(to top,rgba(15,42,61,.75),rgba(15,42,61,0))}
+  .c-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(255,255,255,.88);color:#1e293b;font-size:22px;line-height:36px;text-align:center;cursor:pointer;z-index:2;padding:0}
+  .c-prev{left:12px}.c-next{right:12px}
+  .c-dots{position:absolute;bottom:14px;right:14px;display:flex;gap:6px;z-index:2}
+  .c-dots button{width:9px;height:9px;border-radius:50%;border:1px solid #fff;background:rgba(255,255,255,.55);cursor:pointer;padding:0}
+  .c-dots button.is-active{background:#fff}
+  @media(max-width:640px){.c-track{aspect-ratio:16/10}.c-slide figcaption{font-size:12.5px;padding-right:78px}}
+
+  /* --- feature icon strip (added) --- */
+  .feat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .feat{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px}
+  .feat .ic{width:40px;height:40px;border-radius:10px;background:#e8eefc;color:#1d4ed8;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .feat .ic svg{width:22px;height:22px}
+  .feat b{display:block;font-size:14.5px;color:#1e293b}
+  .feat span{display:block;font-size:13px;color:#64748b;margin-top:3px;line-height:1.5}
+  @media(max-width:640px){.feat-strip{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="watermark" aria-hidden="true"></div>
+<div class="page">
+
+<header>
+  <span class="badge">SAMPLE — DEMONSTRATION ONLY</span>
+  <h1>Automation &amp; Website Development Workflow</h1>
+  <p class="lede">From a client's first message to a live website that captures leads, files them in the CRM and follows up on its own — this page walks through the whole job, stage by stage, with the real deliverable shown at every step.</p>
+  <p class="lede" style="margin-top:10px; font-size:15px;"><b style="color:#1d4ed8;">This is not a tool. It is a finished sample of the work a client receives.</b></p>
+  <div class="meta">
+    <span>Sample client: <b>Maple &amp; Main Plumbing</b> (fictional)</span>
+    <span>Project: <b>Website + lead automation</b></span>
+    <span>Stack: <b>n8n · Twilio · HubSpot</b></span>
+    <span>Timeline: <b>14 days</b></span>
+  </div>
+</header>
+
+<div class="carousel" data-carousel aria-label="Demo gallery">
+  <div class="c-track">
+    <figure class="c-slide is-active"><img src="assets/carousel-dev.jpg" alt="Developer workspace with code on dual monitors"><figcaption>Built module by module — website, CRM and follow-up wired together</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-dashboard.jpg" alt="Customer dashboard on a laptop"><figcaption>Leads captured, filed and followed up on their own</figcaption></figure>
+    <figure class="c-slide"><img src="assets/carousel-plumber.jpg" alt="Plumbing technician with a service van"><figcaption>Sample client — Maple & Main Plumbing, Austin (fictional)</figcaption></figure>
+  </div>
+  <button class="c-arrow c-prev" type="button" aria-label="Previous image">&#8249;</button>
+  <button class="c-arrow c-next" type="button" aria-label="Next image">&#8250;</button>
+  <div class="c-dots">
+    <button type="button" class="is-active" aria-label="Slide 1"></button>
+    <button type="button" aria-label="Slide 2"></button>
+    <button type="button" aria-label="Slide 3"></button>
+  </div>
+</div>
+
+<div class="feat-strip">
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><b>Start from the brief</b><span>The client’s words become the requirements</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></div><b>Outline and plan</b><span>Fixed scope, fixed price, 14-day timeline (sample)</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div><b>Built in modules</b><span>Website, CRM and follow-up, tested as built</span></div>
+  <div class="feat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></div><b>Live in 14 days</b><span>Go-live checklist, handover pack and training</span></div>
+</div>
+
+<div class="note"><b>How to read this page.</b> Every number, name and example below is sample data for demonstration. A live engagement runs the same workflow on your business, your tools and your real data — and you receive the same six deliverables, built for you.</div>
+
+<section class="card">
+  <h2>The workflow at a glance</h2>
+  <p class="sub">Six stages, in order. Nothing is skipped, and every stage ends with something you can see, test and approve before we move on.</p>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><p>Requirements intake</p></div>
+    <span class="arrow">→</span>
+    <div class="step"><span class="n">2</span><p>Outline &amp; plan</p></div>
+    <span class="arrow">→</span>
+    <div class="step"><span class="n">3</span><p>Module development</p></div>
+    <span class="arrow">→</span>
+    <div class="step"><span class="n">4</span><p>Integration &amp; testing</p></div>
+    <span class="arrow">→</span>
+    <div class="step"><span class="n">5</span><p>Go-live</p></div>
+    <span class="arrow">→</span>
+    <div class="step"><span class="n">6</span><p>Handover</p></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 1</span><h2>Client states requirements</h2></div>
+  <p class="sub">Day 1. The client describes the business in their own words. We turn it into a written brief — no building starts until the brief is agreed.</p>
+  <div class="quote"><b>Sample brief — Maple &amp; Main Plumbing, Austin TX (fictional).</b> "We get most jobs by phone and word of mouth. The website is five years old and does not take bookings. We lose calls after hours and never follow up on quotes we send. We want a site that books jobs, and a system that answers after hours, logs every lead and chases quotes automatically."</div>
+  <h3>What we record in intake</h3>
+  <div class="scroll"><table>
+    <tr><th>Intake item</th><th>Sample answer</th></tr>
+    <tr><td>Services to sell</td><td>Emergency repairs, drain cleaning, water heater install (3 service pages)</td></tr>
+    <tr><td>How leads arrive today</td><td>Phone 70%, Google Business Profile 20%, referrals 10%</td></tr>
+    <tr><td>Biggest leak</td><td>After-hours calls unanswered; quotes sent but never followed up</td></tr>
+    <tr><td>Tools already in use</td><td>Google Business Profile, Gmail, paper job sheets — no CRM yet</td></tr>
+    <tr><td>Must-haves</td><td>Online booking, instant SMS reply after hours, quote follow-up, review requests</td></tr>
+    <tr><td>Budget &amp; deadline</td><td>Sample: $1,900 fixed price, live within 14 days</td></tr>
+  </table></div>
+  <div class="deliver"><b>Deliverable 1 — Requirements brief:</b> a one-page written brief, signed off by the client before any work begins.</div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 2</span><h2>We write the outline and plan</h2></div>
+  <p class="sub">Days 1–2. The brief becomes a scope: a module list, a day-by-day plan and a fixed price. The client approves the outline — scope changes after this point are quoted separately, so there are no surprises.</p>
+  <h3>Module list and timeline (sample)</h3>
+  <div class="scroll"><table>
+    <tr><th>Module</th><th>What it does</th><th>Days</th></tr>
+    <tr><td>Website (5 pages)</td><td>Home, Services, Pricing, Booking, Contact — mobile-first, fast, SEO-ready</td><td>1–5</td></tr>
+    <tr><td>Booking &amp; lead capture</td><td>Online booking form with service, time slot and address; every submission logged</td><td>4–6</td></tr>
+    <tr><td>CRM entry (n8n)</td><td>Every lead auto-created in HubSpot with source, service and time stamp</td><td>6–8</td></tr>
+    <tr><td>After-hours auto-reply</td><td>Missed calls get an instant SMS: "Thanks, we reply within 1 business hour"</td><td>7–9</td></tr>
+    <tr><td>Quote follow-up</td><td>Quotes get automatic SMS/email at day 1, day 3 and day 7 until answered</td><td>8–10</td></tr>
+    <tr><td>Review requests</td><td>Completed jobs trigger a Google review request by SMS the next morning</td><td>10–11</td></tr>
+    <tr><td>Dashboard &amp; reporting</td><td>Weekly report: leads, bookings, reply time, reviews gained</td><td>11–12</td></tr>
+  </table></div>
+  <div class="deliver"><b>Deliverable 2 — Project outline:</b> module list, timeline and fixed price, approved in writing before build starts.</div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 3</span><h2>Module-by-module development</h2></div>
+  <p class="sub">Days 3–11. Each module is built against the real requirements from Stage 1 — not a template dropped in and left. The client sees a staging link and can click through progress as it is built.</p>
+  <div class="grid">
+    <div class="module"><span class="tag">MODULE A</span><h4>Website — 5 pages</h4><p>Mobile-first pages with clear calls to action ("Book a visit", "Call now"), service pages written for local search, click-to-call on every screen, and loading under 2 seconds on a sample 4G test.</p></div>
+    <div class="module"><span class="tag">MODULE B</span><h4>Booking &amp; lead capture</h4><p>Booking form asks for service, preferred slot and address, and confirms instantly by SMS. No lead is ever only in an inbox — every submission is stored and logged.</p></div>
+    <div class="module"><span class="tag">MODULE C</span><h4>CRM entry — n8n automation</h4><p>An n8n workflow creates a HubSpot contact and deal for every lead, tags the source (website, Google Business Profile, phone), and assigns the next action with a due time.</p></div>
+    <div class="module"><span class="tag">MODULE D</span><h4>After-hours auto-reply — Twilio</h4><p>Missed calls after hours trigger an instant SMS reply and a next-morning task for the office. Sample wording agreed with the client in advance, never sent without approval.</p></div>
+    <div class="module"><span class="tag">MODULE E</span><h4>Quote follow-up sequence</h4><p>Quotes move through a day 1 / day 3 / day 7 SMS and email sequence and stop the moment the client replies or books. Every step is logged in the CRM so nothing is chased twice.</p></div>
+    <div class="module"><span class="tag">MODULE F</span><h4>Review requests &amp; reporting</h4><p>Completed jobs trigger a Google review request the next morning, and a weekly report shows leads, bookings, reply times and reviews gained — so the owner sees what the system earned.</p></div>
+  </div>
+  <div class="deliver"><b>Deliverable 3 — Working staging site + automations:</b> a clickable staging link and the live n8n workflows, reviewed with the client before testing.</div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 4</span><h2>Integration and testing</h2></div>
+  <p class="sub">Days 12–13. Every connection is tested end to end with sample data before launch. A test only counts when it is written down with a result.</p>
+  <div class="scroll"><table>
+    <tr><th>Test case</th><th>Expected result</th><th>Result</th></tr>
+    <tr><td>Submit booking form (sample)</td><td>Confirmation SMS in under 60 seconds; lead in HubSpot with correct source tag</td><td class="pass">PASS</td></tr>
+    <tr><td>Missed call after hours (sample)</td><td>Auto-reply SMS sent; next-morning task created in CRM</td><td class="pass">PASS</td></tr>
+    <tr><td>Quote sent, no reply (sample)</td><td>Follow-up SMS on day 1, email on day 3, SMS on day 7 — then stops</td><td class="pass">PASS</td></tr>
+    <tr><td>Client replies "yes" mid-sequence (sample)</td><td>Sequence stops immediately; deal marked won</td><td class="pass">PASS</td></tr>
+    <tr><td>Job marked complete (sample)</td><td>Review request SMS sent next morning at 9:00</td><td class="pass">PASS</td></tr>
+    <tr><td>Website on mobile (sample)</td><td>All pages load, click-to-call works, form submits on iOS and Android</td><td class="pass">PASS</td></tr>
+    <tr><td>Weekly report (sample)</td><td>Report generates with leads, bookings, reply time and reviews</td><td class="pass">PASS</td></tr>
+  </table></div>
+  <div class="deliver"><b>Deliverable 4 — Test report:</b> the full checklist above with a pass/fail per case. Nothing goes live with a failing test.</div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 5</span><h2>Website go-live</h2></div>
+  <p class="sub">Day 14. Launch is a checklist, not a hope. Each item is ticked off in order, and the old site stays up until the new one is verified.</p>
+  <ul class="check">
+    <li>Domain and DNS pointed to the new site; old site kept as backup for 7 days</li>
+    <li>SSL certificate active; all pages load over HTTPS</li>
+    <li>Google Business Profile link updated to the new booking page</li>
+    <li>Analytics and Search Console connected; first week of traffic baselined</li>
+    <li>Automations switched from sample data to live mode, one workflow at a time</li>
+    <li>First live booking tested end to end on the real site</li>
+    <li>Owner walkthrough call (30 minutes, recorded): how to check leads, reply, and read the weekly report</li>
+  </ul>
+  <div class="deliver"><b>Deliverable 5 — Live site + launch record:</b> the site live at the client's domain, with the launch checklist completed and filed.</div>
+</section>
+
+<section class="card">
+  <div class="stage-head"><span class="stage-num">STAGE 6</span><h2>Handover — what the client receives</h2></div>
+  <p class="sub">Day 14 and after. The client owns everything. No lock-in, no mystery settings, and 30 days of support to fix anything that comes up.</p>
+  <ul class="check">
+    <li>Live website at your domain, with admin access in your name</li>
+    <li>n8n workflows documented step by step, with your accounts (HubSpot, Twilio) connected under your login</li>
+    <li>Booking, CRM, follow-up and review automations running — and a one-page guide for each</li>
+    <li>Weekly report delivered every Monday: leads, bookings, reply time, reviews gained</li>
+    <li>30 days of fixes included; anything after that is quoted in advance, never billed silently</li>
+  </ul>
+  <div class="deliver"><b>Deliverable 6 — Handover pack:</b> site, workflows, guides and report schedule — everything above, in your hands.</div>
+</section>
+
+<div class="cta">
+  <h2>What a live engagement delivers</h2>
+  <p>The same six stages, on your business, your tools and your real data: a written brief, an approved outline with a fixed price, modules built to your requirements, a written test report, a checklist go-live, and a handover pack you own. You pay for a finished system that keeps working after we leave — not for hours spent.</p>
+  <div class="deliver"><b>How to start:</b> send a message with your business, what you want automated, and what tools you already use. You get a written outline and a fixed price before any work begins.</div>
+</div>
+
+<footer>All names, figures and test results on this page are fictional sample data for demonstration. Maple &amp; Main Plumbing is not a real client.<br>Prepared as a portfolio demonstration for Upwork — AI Automation &amp; Website Development.</footer>
+
+</div>
+
+<script>
+(function(){document.querySelectorAll('[data-carousel]').forEach(function(car){var slides=car.querySelectorAll('.c-slide'),dots=car.querySelectorAll('.c-dots button'),i=0,timer=null;function show(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,k){s.classList.toggle('is-active',k===i)});dots.forEach(function(d,k){d.classList.toggle('is-active',k===i)})}function auto(){clearInterval(timer);timer=setInterval(function(){show(i+1)},5000)}var prev=car.querySelector('.c-prev'),next=car.querySelector('.c-next');if(prev)prev.addEventListener('click',function(){show(i-1);auto()});if(next)next.addEventListener('click',function(){show(i+1);auto()});dots.forEach(function(d,k){d.addEventListener('click',function(){show(k);auto()})});car.addEventListener('mouseenter',function(){clearInterval(timer)});car.addEventListener('mouseleave',auto);auto()})})();
+</script>
+</body>
+</html>
